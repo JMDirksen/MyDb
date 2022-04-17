@@ -14,6 +14,8 @@ Don't forget to change "mySecurePassword" in below code.
       grant all privileges on mydb.* to mydb@localhost;
       flush privileges;
 
+    sudo mariadb mydb < db.sql
+
 ## Configuration
 
 Copy or rename the `config.template.php` to `config.php`  
