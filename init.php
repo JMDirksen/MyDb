@@ -1,6 +1,7 @@
 <?php
 
 require("config.php");
+require("functions.php");
 
 if ($debug) {
     ini_set("error_reporting", E_ALL);
