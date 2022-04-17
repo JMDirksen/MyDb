@@ -1,7 +1,7 @@
 <?php
 require("init.php");
 
-$pages = ['home', 'manage'];
+$pages = ['home', 'login', 'logout'];
 $page = (isset($_GET['p']) && in_array($_GET['p'], $pages, true)) ? "./$_GET[p].php" : "./home.php";
 ?>
 <!DOCTYPE html>

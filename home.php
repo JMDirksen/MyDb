@@ -1,1 +1,4 @@
+<?php
+  loginRequired();
+?>
 home

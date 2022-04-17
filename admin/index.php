@@ -1,5 +1,6 @@
 <?php
 require("../init.php");
+loginRequired();
 
 $pages = ['createtable'];
 $page = (isset($_GET['p']) && in_array($_GET['p'], $pages, true)) ? "./$_GET[p].php" : "./home.php";

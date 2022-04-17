@@ -1,4 +1,6 @@
 <?php
+loginRequired();
+
 if (isset($_GET['n']) && isset($_GET['c'])) {
 ?>
   <form method="POST" action="action.php">

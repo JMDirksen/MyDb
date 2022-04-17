@@ -1,6 +1,8 @@
 <?php
 require("../init.php");
 
+loginRequired();
+
 // Create table
 if (isset($_POST['createtable'])) {
   for ($i = 1; $i <= $_POST['columns']; $i++) {
