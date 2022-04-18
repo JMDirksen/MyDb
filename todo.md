@@ -2,8 +2,9 @@
 
 - [x] Create table
 - [x] View table
-- [ ] Edit record
+- [x] Edit record
 - [ ] New record
+- [ ] Delete record
 - [ ] Create table: always id column w/ai
 - [ ] Metadata s_column s_table
 - [ ] User manager

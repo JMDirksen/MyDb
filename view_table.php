@@ -12,7 +12,7 @@ echo "<tr><th></th>";
 $sth = $dbh->prepare("SHOW COLUMNS FROM $table");
 if ($sth->execute() === false) die(dump($sth->errorInfo()));
 $columns = $sth->fetchAll(PDO::FETCH_ASSOC);
-foreach($columns as $column) {
+foreach ($columns as $column) {
   echo "<th>$column[Field]</th>";
 }
 echo "</tr>";
@@ -22,7 +22,7 @@ $sth = $dbh->prepare("SELECT * FROM $table");
 if ($sth->execute() === false) die(dump($sth->errorInfo()));
 $result = $sth->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $row) {
-  echo "<tr><td><a href=\"edit_record.php?t=$table&id=?\">E</a> <a href=\"action.php?a=d&t=$table&id=?\">X</a></td>";
+  echo "<tr><td><a href=\"?p=edit_record&t=$table&id=$row[id]\">E</a> <a href=\"action.php?a=d&t=$table&id=?\">X</a></td>";
   foreach ($row as $v) {
     echo "<td>$v</td>";
   }
