@@ -1,8 +1,9 @@
 <?php
 
 // Database
-$dsn = 'mysql:dbname=mydb;host=localhost';
-$db_user = "mydb";
-$db_pass = "mySecurePassword";
+define("DB_DSN", "mysql:dbname=mydb;host=localhost");
+define("DB_USER", "mydb");
+define("DB_PASS", "mySecurePassword");
 
-// $debug = true;
+// Debug
+define("DEBUG", false);

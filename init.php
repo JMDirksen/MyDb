@@ -9,4 +9,4 @@ if ($debug) {
     ini_set("display_errors", 1);
 }
 
-$dbh = new PDO($dsn, $db_user, $db_pass);
+$dbh = new PDO(DB_DSN, DB_USER, DB_PASS);
