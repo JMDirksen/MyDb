@@ -1,5 +1,5 @@
 <?php
-require("init.php");
+require "init.php";
 
 $pages = ['home', 'login', 'logout', 'view_table', 'edit_record'];
 $page = (isset($_GET['p']) && in_array($_GET['p'], $pages, true)) ? "./$_GET[p].php" : "./home.php";
@@ -13,7 +13,7 @@ $page = (isset($_GET['p']) && in_array($_GET['p'], $pages, true)) ? "./$_GET[p].
 </head>
 
 <body>
-  <?php include($page); ?>
+  <?php include $page; ?>
 </body>
 
 </html>

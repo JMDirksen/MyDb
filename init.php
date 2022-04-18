@@ -1,8 +1,8 @@
 <?php
 
 session_start();
-require("config.php");
-require("functions.php");
+require "config.php";
+require "functions.php";
 
 // Auto load classes
 spl_autoload_register(function ($class_name) {
