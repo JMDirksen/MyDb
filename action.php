@@ -51,3 +51,12 @@ if (isset($_POST['edit_record'])) {
   }
   redirect("/?p=view_table&t=$table");
 }
+
+// Delete record
+if ($_GET['a'] == "d") {
+  if (!valid($table = $_GET['t'])) die("Invalid table name");
+  $sql = "DELETE FROM $table WHERE id = ?";
+  $sth = $dbh->prepare($sql);
+  if (!$sth->execute([$_GET['id']])) die(dump($sth->errorInfo()));
+  redirect("/?p=view_table&t=$table");
+}
