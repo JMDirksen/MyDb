@@ -23,3 +23,12 @@ function isLoggedIn()
   }
   return false;
 }
+
+function valid($value, $type = 1)
+{
+  switch ($type) {
+    case 1:
+      return preg_match("/^[a-z0-9_]+$/", $value) === 1;
+      break;
+  }
+}

@@ -1,7 +1,7 @@
 <?php
 require("init.php");
 
-$pages = ['home', 'login', 'logout'];
+$pages = ['home', 'login', 'logout', 'view_table'];
 $page = (isset($_GET['p']) && in_array($_GET['p'], $pages, true)) ? "./$_GET[p].php" : "./home.php";
 ?>
 <!DOCTYPE html>
@@ -9,6 +9,7 @@ $page = (isset($_GET['p']) && in_array($_GET['p'], $pages, true)) ? "./$_GET[p].
 
 <head>
   <title>MyDb</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>

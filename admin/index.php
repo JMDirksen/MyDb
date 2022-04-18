@@ -10,6 +10,7 @@ $page = (isset($_GET['p']) && in_array($_GET['p'], $pages, true)) ? "./$_GET[p].
 
 <head>
     <title>MyDb</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>

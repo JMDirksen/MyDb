@@ -2,6 +2,7 @@
 loginRequired();
 
 if (isset($_GET['n']) && isset($_GET['c'])) {
+  if (!valid($table = $_GET['n'])) die("Invalid table name");
 ?>
   <form method="POST" action="action.php">
     <input type="hidden" name="columns" value="<?php echo $_GET['c']; ?>">
@@ -30,7 +31,8 @@ if (isset($_GET['n']) && isset($_GET['c'])) {
 
 <?php } else { ?>
 
-  <form method="GET" action="createtable.php">
+  <form method="GET" action="">
+    <input type="hidden" name="p" value="createtable">
     <table>
       <tr>
         <td>Name</td>
