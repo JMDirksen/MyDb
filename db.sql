@@ -10,7 +10,7 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `s_column`;
 CREATE TABLE `s_column` (
-  `fk_table` varchar(25) NOT NULL,
+  `table` varchar(25) NOT NULL,
   `name` varchar(25) NOT NULL,
   `display_name` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -34,7 +34,7 @@ INSERT INTO `s_user` (`id`, `username`, `password`, `type`) VALUES
 
 
 ALTER TABLE `s_column`
-  ADD PRIMARY KEY (`fk_table`,`name`);
+  ADD PRIMARY KEY (`table`,`name`);
 
 ALTER TABLE `s_table`
   ADD PRIMARY KEY (`name`);
@@ -48,7 +48,7 @@ ALTER TABLE `s_user`
 
 
 ALTER TABLE `s_column`
-  ADD CONSTRAINT `fk_table` FOREIGN KEY (`fk_table`) REFERENCES `s_table` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_table` FOREIGN KEY (`table`) REFERENCES `s_table` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
