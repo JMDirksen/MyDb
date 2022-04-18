@@ -8,6 +8,19 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 
+DROP TABLE IF EXISTS `s_column`;
+CREATE TABLE `s_column` (
+  `fk_table` varchar(25) NOT NULL,
+  `name` varchar(25) NOT NULL,
+  `display_name` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `s_table`;
+CREATE TABLE `s_table` (
+  `name` varchar(25) NOT NULL,
+  `display_name` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 DROP TABLE IF EXISTS `s_user`;
 CREATE TABLE `s_user` (
   `id` int(11) NOT NULL,
@@ -20,12 +33,22 @@ INSERT INTO `s_user` (`id`, `username`, `password`, `type`) VALUES
 (1, 'mydb', '$2y$10$zYcvggp5d9OS/nwDM/dwxuhjx6VvjR6kQftxSFsTju.eEFjpUGrq.', 'admin');
 
 
+ALTER TABLE `s_column`
+  ADD PRIMARY KEY (`fk_table`,`name`);
+
+ALTER TABLE `s_table`
+  ADD PRIMARY KEY (`name`);
+
 ALTER TABLE `s_user`
   ADD PRIMARY KEY (`id`);
 
 
 ALTER TABLE `s_user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+
+ALTER TABLE `s_column`
+  ADD CONSTRAINT `fk_table` FOREIGN KEY (`fk_table`) REFERENCES `s_table` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
