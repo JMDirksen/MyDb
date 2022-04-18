@@ -1,7 +1,11 @@
 <?php
 if (!valid($table = $_GET['t'])) die("Invalid table name");
-$id = $_GET['id'];
-
+if (isset($_GET['new'])) {
+  $new = true;
+  $id = 'new';
+} else {
+  $id = $_GET['id'];
+}
 echo "<h1>$table - $id</h1>";
 ?>
 <form method="POST" action="action.php">
@@ -9,9 +13,16 @@ echo "<h1>$table - $id</h1>";
   <input type="hidden" name="id" value="<?php echo $id; ?>">
   <table>
     <?php
-    $sth = $dbh->prepare("SELECT * FROM $table WHERE id = ?");
-    $sth->execute([$id]);
-    $row = $sth->fetch(PDO::FETCH_ASSOC);
+    if ($new) {
+      $sth = $dbh->prepare("SHOW COLUMNS FROM $table");
+      if (!$sth->execute()) die(dump($sth->errorInfo()));
+      $columns = $sth->fetchAll(PDO::FETCH_ASSOC);
+      foreach ($columns as $column) $row[$column['Field']] = "";
+    } else {
+      $sth = $dbh->prepare("SELECT * FROM $table WHERE id = ?");
+      if (!$sth->execute([$id])) die(dump($sth->errorInfo()));
+      $row = $sth->fetch(PDO::FETCH_ASSOC);
+    }
     foreach ($row as $name => $value) {
       echo "<tr>\n";
       echo "<td>$name</td>\n";

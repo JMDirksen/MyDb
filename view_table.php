@@ -5,6 +5,7 @@ if (!valid($table = $_GET['t'])) die("Invalid table name");
 
 // Header
 echo "<h1>$table</h1>";
+echo "<a href=\"?p=edit_record&new&t=$table\">Add</a>";
 echo "<table>\n";
 echo "<tr><th></th>";
 
