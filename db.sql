@@ -30,7 +30,7 @@ CREATE TABLE `s_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `s_user` (`id`, `username`, `password`, `type`) VALUES
-(1, 'mydb', '$2y$10$zYcvggp5d9OS/nwDM/dwxuhjx6VvjR6kQftxSFsTju.eEFjpUGrq.', 'admin');
+(1, 'admin', '$2y$10$zYcvggp5d9OS/nwDM/dwxuhjx6VvjR6kQftxSFsTju.eEFjpUGrq.', 'admin');
 
 
 ALTER TABLE `s_column`

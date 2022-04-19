@@ -6,7 +6,7 @@
 
 ## Setup database
 
-Don't forget to change "mySecurePassword" in below code.
+Don't forget to change `mySecurePassword` in below code.
 
     sudo mariadb
       create database mydb;
@@ -19,4 +19,8 @@ Don't forget to change "mySecurePassword" in below code.
 ## Configuration
 
 Copy or rename the `config.template.php` to `config.php`  
-Set the password in `config.php` to the one used in the code above.
+Set the database password in `config.php` to the one used in the code above.
+
+## Login
+
+The default username and password for logging in are: `admin` / `MyDb` (please change right away)

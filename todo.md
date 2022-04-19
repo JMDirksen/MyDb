@@ -5,6 +5,7 @@
 - [x] Edit record
 - [x] Add record
 - [x] Delete record
+- [ ] Class Table save method
 - [ ] Create table: always id column w/ai
 - [ ] Metadata s_column s_table
 - [ ] User manager
