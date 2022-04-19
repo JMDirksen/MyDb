@@ -1,7 +1,8 @@
 <?php
 
-function redirect($url = '') {
-  header("Location: $url");
+function redirect($url = null) {
+  if(!$url) $url = $_SERVER['REQUEST_URI'];
+  header('Location: '.$url);
   die();
 }
 
