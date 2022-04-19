@@ -1,5 +1,5 @@
 <?php
-  loginRequired();
+  loginRequired("admin");
 ?>
 <h1>admin home</h1>
-<a href="?p=createtable">Create table</a>
+<a href="?p=create_table">Create table</a>

@@ -1,6 +1,6 @@
 <?php
 
-function redirect($url = "") {
+function redirect($url = '') {
   header("Location: $url");
   die();
 }
@@ -9,13 +9,14 @@ function dump($var) {
   echo "<pre>" . print_r($var, true) . "</pre>";
 }
 
-function loginRequired($type = "") {
-  if (!isLoggedIn()) redirect("/?p=login");
+function loginRequired($type = null) {
+  if (!$user = isLoggedIn()) redirect("/?p=login");
+  if(isset($type) && $type != $user['type']) redirect("/?p=login");
 }
 
 function isLoggedIn() {
   if (isset($_SESSION['id']) && isset($_SESSION['type'])) {
-    return [$_SESSION['id'], $_SESSION['type']];
+    return ["id" => $_SESSION['id'], "type" => $_SESSION['type']];
   }
   return false;
 }

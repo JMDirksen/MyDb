@@ -1,8 +1,8 @@
 <?php
 require "../init.php";
-loginRequired();
+loginRequired("admin");
 
-$pages = ['createtable'];
+$pages = ['create_table'];
 $page = (isset($_GET['p']) && in_array($_GET['p'], $pages, true)) ? "./$_GET[p].php" : "./home.php";
 ?>
 <!DOCTYPE html>

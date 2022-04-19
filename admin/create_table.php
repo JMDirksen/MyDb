@@ -1,10 +1,25 @@
 <?php
-loginRequired();
+loginRequired("admin");
 
-if (isset($_GET['n']) && isset($_GET['c'])) {
+// Create table
+if (isset($_POST['createtable'])) {
+  if (!valid($table = $_POST['name'])) die("Invalid table name");
+  for ($i = 1; $i <= $_POST['columns']; $i++) {
+    if (!valid($name = $_POST['name' . $i])) die("Invalid column name");
+    $type = str_replace(["text", "number"], ["VARCHAR(255)", "INT"], $_POST['type' . $i]);
+    $columns[] = "$name $type";
+  }
+  $columnsstring = implode(", ", $columns);
+  $sql = "CREATE TABLE $table ($columnsstring)";
+  if ($dbh->exec($sql) === false) die(dump($dbh->errorInfo()));
+  redirect("/admin");
+}
+
+// Form with columns
+elseif (isset($_GET['n']) && isset($_GET['c'])) {
   if (!valid($table = $_GET['n'])) die("Invalid table name");
 ?>
-  <form method="POST" action="action.php">
+  <form method="POST">
     <input type="hidden" name="columns" value="<?php echo $_GET['c']; ?>">
     <table>
       <tr>
@@ -29,10 +44,13 @@ if (isset($_GET['n']) && isset($_GET['c'])) {
     <input type="submit" name="createtable" value="Create">
   </form>
 
-<?php } else { ?>
-
-  <form method="GET" action="">
-    <input type="hidden" name="p" value="createtable">
+<?php
+}
+// Form name and column count
+else {
+?>
+  <form method="GET">
+    <input type="hidden" name="p" value="create_table">
     <table>
       <tr>
         <td>Name</td>
