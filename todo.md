@@ -11,8 +11,9 @@
 - [x] Create table: always id column w/ai
 - [x] Metadata s_column s_table
 - [x] Menu bar
-- [ ] Breadcrums
+- [x] Breadcrums (simple)
 - [ ] Integrate admin page in main (not separate dir)
 - [ ] Options
 - [ ] User manager
 - [ ] User permissions (type)
+- [ ] Breadcrums

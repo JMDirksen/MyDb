@@ -15,6 +15,7 @@ $pageFile = (in_array($page = @$_GET['page'], $pages, true)) ? "./$page.php" : '
 <body>
   <?php
   require 'menu.php';
+  require 'breadcrums.php';
   require $pageFile;
   ?>
 </body>
