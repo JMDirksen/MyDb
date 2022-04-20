@@ -1,8 +1,8 @@
 <?php
 require "init.php";
 
-$pages = ['home', 'login', 'logout', 'view_table', 'edit_record'];
-$page = (isset($_GET['page']) && in_array($_GET['page'], $pages, true)) ? './' . $_GET['page'] . '.php' : './home.php';
+$pages = ['home', 'login', 'logout', 'view_table', 'edit_record', 'options'];
+$pageFile = (in_array($page = @$_GET['page'], $pages, true)) ? "./$page.php" : './home.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,7 +13,10 @@ $page = (isset($_GET['page']) && in_array($_GET['page'], $pages, true)) ? './' .
 </head>
 
 <body>
-  <?php include $page; ?>
+  <?php
+  require 'menu.php';
+  require $pageFile;
+  ?>
 </body>
 
 </html>
