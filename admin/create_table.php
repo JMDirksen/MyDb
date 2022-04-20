@@ -1,10 +1,10 @@
 <?php
-loginRequired("admin");
+loginRequired('admin');
 
 // Create table
 if (isset($_POST['create_table'])) {
   if (!valid($tablename = $_POST['name'])) die('Invalid table name');
-  
+
   $table = new Table($tablename, true);
 
   for ($i = 1; $i <= $_POST['columns']; $i++) {
@@ -21,7 +21,7 @@ if (isset($_POST['create_table'])) {
 
 // Form with columns
 elseif (isset($_GET['name']) && isset($_GET['columns'])) {
-  if (!valid($table = $_GET['name'])) die("Invalid table name");
+  if (!valid($table = $_GET['name'])) die('Invalid table name');
 ?>
   <form method="POST">
     <input type="hidden" name="columns" value="<?php echo $_GET['columns']; ?>">

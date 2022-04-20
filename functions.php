@@ -11,8 +11,8 @@ function dump($var) {
 }
 
 function loginRequired($type = null) {
-  if (!$user = isLoggedIn()) redirect('/?p=login');
-  if (isset($type) && $type != $user['type']) redirect('/?p=login');
+  if (!$user = isLoggedIn()) redirect('/?page=login');
+  if (isset($type) && $type != $user['type']) redirect('/?page=login');
 }
 
 function isLoggedIn() {

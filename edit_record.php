@@ -9,10 +9,10 @@ if (isset($_POST['edit_record'])) {
 
   // Build columns and values arrays
   foreach ($_POST as $name => $value) {
-    if (substr($name, 0, 7) == "column_") {
-      if (!valid($name)) die("Invalid column name");
+    if (substr($name, 0, 7) == 'column_') {
+      if (!valid($name)) die('Invalid column name');
       $column = substr($name, 7);
-      if ($column == "id") continue;
+      if ($column == 'id') continue;
       $columns[] = $column;
       $values[] = $value;
     }
@@ -20,21 +20,21 @@ if (isset($_POST['edit_record'])) {
 
   if ($new) {
     // Build/execute insert query
-    $sql = "INSERT INTO $table (" . join(", ", $columns) . ") VALUES (" . join(", ", array_fill(0, count($values), "?")) . ")";
+    $sql = "INSERT INTO `$table` (" . join(', ', $columns) . ') VALUES (' . join(', ', array_fill(0, count($values), '?')) . ')';
     $sth = $dbh->prepare($sql);
-    if (!$sth->execute($values)) die(dump($sth->errorInfo()));
+    $sth->execute($values);
   } else {
     // Build/execute update query
-    $sql = "UPDATE $table SET " . join(" = ?, ", $columns) . " = ? WHERE id = ?";
+    $sql = "UPDATE `$table` SET " . join(' = ?, ', $columns) . ' = ? WHERE id = ?';
     $sth = $dbh->prepare($sql);
     $params = array_merge($values, [$id]);
-    if (!$sth->execute($params)) die(dump($sth->errorInfo()));
+    $sth->execute($params);
   }
-  redirect("/?p=view_table&t=$table");
+  redirect('/?page=view_table&table='.$table);
 }
 
 // Form
-if (!valid($table = $_GET['t'])) die('Invalid table name');
+if (!valid($table = $_GET['table'])) die('Invalid table name');
 if (isset($_GET['new'])) {
   $new = true;
   $id = 'new';
@@ -50,16 +50,17 @@ echo "<h1>$table - $id</h1>";
   <table>
     <?php
     if ($new) {
-      $sth = $dbh->prepare("SHOW COLUMNS FROM $table");
-      if (!$sth->execute()) die(dump($sth->errorInfo()));
+      $sth = $dbh->prepare("SHOW COLUMNS FROM `$table`");
+      $sth->execute();
       $columns = $sth->fetchAll(PDO::FETCH_ASSOC);
-      foreach ($columns as $column) $row[$column['Field']] = "";
+      foreach ($columns as $column) $row[$column['Field']] = '';
     } else {
-      $sth = $dbh->prepare("SELECT * FROM $table WHERE id = ?");
-      if (!$sth->execute([$id])) die(dump($sth->errorInfo()));
+      $sth = $dbh->prepare("SELECT * FROM `$table` WHERE id = ?");
+      $sth->execute([$id]);
       $row = $sth->fetch(PDO::FETCH_ASSOC);
     }
     foreach ($row as $name => $value) {
+      if ($name == 'id') continue;
       echo "<tr>\n";
       echo "<td>$name</td>\n";
       echo "<td><input type=\"text\" name=\"column_$name\" value=\"$value\"></td>\n";

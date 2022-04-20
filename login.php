@@ -3,8 +3,7 @@ if (isLoggedIn()) redirect('/');
 
 // Login
 elseif (isset($_POST['login'])) {
-  $sql = 'SELECT `id`, `password`, `type` FROM `s_user` WHERE `username` = ?';
-  $sth = $dbh->prepare($sql);
+  $sth = $dbh->prepare('SELECT `id`, `password`, `type` FROM `s_user` WHERE `username` = ?');
   $sth->execute([$_POST['username']]);
   $result = $sth->fetchAll(PDO::FETCH_ASSOC);
   if (count($result) == 1) {

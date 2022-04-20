@@ -24,8 +24,8 @@ class Column {
   function load() {
     global $dbh;
 
-    $sth = $dbh->prepare("SELECT * FROM `s_column` WHERE `table` = ? AND `name` = ?");
-    if (!$sth->execute([$this->table, $this->name])) die(dump($sth->errorInfo()));
+    $sth = $dbh->prepare('SELECT `table`, `name`, `display_name` FROM `s_column` WHERE `table` = ? AND `name` = ?');
+    $sth->execute([$this->table, $this->name]);
     $column = $sth->fetch(PDO::FETCH_ASSOC);
     $this->table = $column['table'];
     $this->name = $column['name'];

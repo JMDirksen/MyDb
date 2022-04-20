@@ -2,5 +2,5 @@
   loginRequired();
 ?>
 <ul>
-  <li><a href="?p=view_table&t=test">Test</a></li>
+  <li><a href="?page=view_table&table=test">Test</a></li>
 </ul>
