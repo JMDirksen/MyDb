@@ -2,4 +2,4 @@
   loginRequired("admin");
 ?>
 <h1>admin home</h1>
-<a href="?p=create_table">Create table</a>
+<a href="?page=create_table">Create table</a>

@@ -3,11 +3,22 @@ class Column {
   public $table;
   public $name;
   public $display_name;
+  public $type;
+  public $sqlType;
+  public $new;
 
-  function __construct($table, $name, $load = true) {
+  function __construct($table, $name, $new = false) {
     $this->table = $table;
     $this->name = $name;
-    if ($load) $this->load();
+    $this->display_name = ucfirst($name);
+    $this->new = $new;
+
+    if (!$new) $this->load();
+  }
+
+  function setType($type) {
+    $this->type = $type;
+    $this->sqlType = str_replace(['text', 'number'], ['VARCHAR(255)', 'INT'], $type);
   }
 
   function load() {
