@@ -12,14 +12,15 @@ DROP TABLE IF EXISTS `s_column`;
 CREATE TABLE `s_column` (
   `table` varchar(25) NOT NULL,
   `name` varchar(25) NOT NULL,
-  `display_name` varchar(25) NOT NULL
+  `display_name` varchar(25) NOT NULL,
+  `type` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `s_table`;
 CREATE TABLE `s_table` (
   `name` varchar(25) NOT NULL,
   `display_name` varchar(25) NOT NULL,
-  `hidden` tinyint(1) NOT NULL
+  `hidden` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `s_user`;
