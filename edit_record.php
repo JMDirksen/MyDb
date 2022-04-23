@@ -3,46 +3,32 @@ loginRequired();
 
 // Edit record
 if (isset($_POST['edit_record'])) {
-  if (!valid($table = $_POST['table'])) die('Invalid table name');
-  $id = $_POST['id'];
-  if ($id == 'new') $new = true;
-
-  // Build columns and values arrays
-  foreach ($_POST as $name => $value) {
-    if (substr($name, 0, 7) == 'column_') {
-      if (!valid($name)) die('Invalid column name');
-      $column = substr($name, 7);
-      if ($column == 'id') continue;
-      $columns[] = $column;
-      $values[] = $value;
-    }
+  if (!valid($tableName = $_POST['table'])) die('Invalid table name');
+  $id = (int)$_POST['id'];
+  $table = new Table($tableName);
+  $record = $table->getRecord($id);
+  foreach($record->data as $columnName => $value) {
+    $record->data[$columnName] = $_POST['column_'.$columnName];
   }
+  $record->save();
 
-  if ($new) {
-    // Build/execute insert query
-    $sql = "INSERT INTO `$table` (" . join(', ', $columns) . ') VALUES (' . join(', ', array_fill(0, count($values), '?')) . ')';
-    $sth = $dbh->prepare($sql);
-    $sth->execute($values);
-  } else {
-    // Build/execute update query
-    $sql = "UPDATE `$table` SET " . join(' = ?, ', $columns) . ' = ? WHERE id = ?';
-    $sth = $dbh->prepare($sql);
-    $params = array_merge($values, [$id]);
-    $sth->execute($params);
-  }
-  redirect('/?page=view_table&table=' . $table);
+  redirect('/?page=view_table&table=' . $tableName);
 }
 
 // Form
 if (!valid($table = $_GET['table'])) die('Invalid table name');
-$id = $_GET['id'];
+$id = (int)$_GET['id'];
 $table = new Table($table);
+$record = $table->getRecord($id);
 $columnRows = '';
-foreach ($table->columns as $column) {
-  $columnRows .= "<tr>" .
-    "<td>$column->display_name</td>" .
-    "<td><input type=\"$column->type\" name=\"column_$column->name\" value=\"\"></td>" .
-    "</tr>\n";
+foreach ($record->columns as $column) {
+  $columnRows .= sprintf(
+    '<tr><td>%s</td><td><input type="%s" name="column_%s" value="%s"></td></tr>' . PHP_EOL,
+    $column->display_name,
+    $column->type,
+    $column->name,
+    $record->data[$column->name]
+  );
 }
 ?>
 <h1><?php echo "$table->name - $id"; ?></h1>

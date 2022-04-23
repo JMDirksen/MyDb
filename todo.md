@@ -15,7 +15,7 @@
 - [x] Split edit_record in add_ and edit_
 - [x] Record class
 - [x] Table getRecord()
-- [ ] edit_record (using Table getRecord())
+- [x] edit_record (using Table getRecord())
 - [ ] Table addRecord()
 - [ ] add_record (using Table addRecord())
 - [ ] Class Table update method (existing table)
@@ -24,3 +24,5 @@
 - [ ] User permissions (type)
 - [ ] Breadcrums
 - [ ] Required columns
+- [ ] CSV Export
+- [ ] CSV Import
