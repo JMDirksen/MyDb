@@ -12,7 +12,7 @@ if (isset($_GET['delete'])) {
 
 // Header
 echo "<h1>$table</h1>\n";
-echo "<a href=\"?page=edit_record&new&table=$table\">Add</a>\n";
+echo "<a href=\"?page=add_record&table=$table\">Add</a>\n";
 echo "<table>\n";
 echo "<tr><th></th>";
 

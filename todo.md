@@ -6,14 +6,21 @@
 - [x] Add record
 - [x] Delete record
 - [x] Class Table save method (new)
-- [ ] Class Table save method (existing)
 - [x] Save table in transaction
 - [x] Create table: always id column w/ai
 - [x] Metadata s_column s_table
 - [x] Menu bar
 - [x] Breadcrums (simple)
 - [x] Integrate admin page in main (not separate dir)
+- [x] Split edit_record in add_ and edit_
+- [ ] Record class
+- [ ] Table getRecord()
+- [ ] edit_record (using Table getRecord())
+- [ ] Table addRecord()
+- [ ] add_record (using Table addRecord())
+- [ ] Class Table update method (existing table)
 - [ ] Options
 - [ ] User manager
 - [ ] User permissions (type)
 - [ ] Breadcrums
+- [ ] Required columns

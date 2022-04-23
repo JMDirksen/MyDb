@@ -16,7 +16,7 @@ if (isset($_POST['create_table'])) {
 
   $table->save();
 
-  redirect('/admin');
+  redirect('/?page=admin');
 }
 
 // Form with columns
@@ -38,8 +38,8 @@ elseif (isset($_GET['name']) && isset($_GET['columns'])) {
         echo "<td>$i</td>\n";
         echo "<td><input type=\"text\" name=\"name$i\" placeholder=\"columnname\" required></td>\n";
         echo "<td><select name=\"type$i\">\n";
-        echo "  <option>text</option>\n";
-        echo "  <option>number</option>\n";
+        echo "  <option title=\"A string of maximum 255 characters\">text</option>\n";
+        echo "  <option title=\"A whole number\">number</option>\n";
         echo "</select></td>\n";
         echo "</tr>\n";
       }

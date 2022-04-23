@@ -24,11 +24,12 @@ class Column {
   function load() {
     global $dbh;
 
-    $sth = $dbh->prepare('SELECT `table`, `name`, `display_name` FROM `s_column` WHERE `table` = ? AND `name` = ?');
+    $sth = $dbh->prepare('SELECT `table`, `name`, `display_name`, `type` FROM `s_column` WHERE `table` = ? AND `name` = ?');
     $sth->execute([$this->table, $this->name]);
     $column = $sth->fetch(PDO::FETCH_ASSOC);
     $this->table = $column['table'];
     $this->name = $column['name'];
     $this->display_name = $column['display_name'];
+    $this->setType($column['type']);
   }
 }

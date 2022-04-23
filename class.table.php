@@ -44,8 +44,8 @@ class Table {
 
       // Save metadata columns
       foreach ($this->columns as $column) {
-        $sth = $dbh->prepare('INSERT INTO `s_column` (`table`, `name`, `display_name`) VALUES (?, ?, ?)');
-        $sth->execute([$column->table, $column->name, $column->display_name]);
+        $sth = $dbh->prepare('INSERT INTO `s_column` (`table`, `name`, `display_name`, `type`) VALUES (?, ?, ?, ?)');
+        $sth->execute([$column->table, $column->name, $column->display_name, $column->type]);
       }
 
       // Save table
