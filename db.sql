@@ -18,7 +18,8 @@ CREATE TABLE `s_column` (
 DROP TABLE IF EXISTS `s_table`;
 CREATE TABLE `s_table` (
   `name` varchar(25) NOT NULL,
-  `display_name` varchar(25) NOT NULL
+  `display_name` varchar(25) NOT NULL,
+  `hidden` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `s_user`;
