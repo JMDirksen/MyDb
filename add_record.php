@@ -3,42 +3,34 @@ loginRequired();
 
 // Add record
 if (isset($_POST['add_record'])) {
-  if (!valid($table = $_POST['table'])) die('Invalid table name');
-
-  // Build columns and values arrays
-  foreach ($_POST as $name => $value) {
-    if (substr($name, 0, 7) == 'column_') {
-      $column = substr($name, 7);
-      if (!valid($column)) die('Invalid column name');
-      $columns[] = $column;
-      $values[] = $value;
-    }
+  if (!valid($tableName = $_POST['table'])) die('Invalid table name');
+  $table = new Table($tableName);
+  $data = [];
+  foreach ($table->columns as $column) {
+    if (!isset($_POST['column_' . $column->name])) continue;
+    $data[$column->name] = $_POST['column_' . $column->name];
   }
+  $record = $table->addRecord($data);
 
-  // Build/execute insert query
-  $sql = "INSERT INTO `$table` (" . join(', ', $columns) . ') ' .
-    'VALUES (' . join(', ', array_fill(0, count($values), '?')) . ')';
-  $sth = $dbh->prepare($sql);
-  $sth->execute($values);
-  redirect('/?page=view_table&table=' . $table);
+  redirect('/?page=view_table&table=' . $tableName);
 }
 
 // Form
 if (!valid($table = $_GET['table'])) die('Invalid table name');
-$sth = $dbh->prepare('SELECT * FROM `s_column` WHERE `table` = ?');
-$sth->execute([$table]);
-$columns = $sth->fetchAll(PDO::FETCH_ASSOC);
+$table = new Table($table);
 $columnRows = '';
-foreach ($columns as $column) {
-  $columnRows .= "<tr>" .
-    "<td>$column[display_name]</td>" .
-    "<td><input type=\"$column[type]\" name=\"column_$column[name]\"></td>" .
-    "</tr>\n";
+foreach ($table->columns as $column) {
+  $columnRows .= sprintf(
+    '<tr><td>%s</td><td><input type="%s" name="column_%s" value=""></td></tr>' . PHP_EOL,
+    $column->display_name,
+    $column->type,
+    $column->name,
+  );
 }
 ?>
-<h1><?php echo $table; ?> - add</h1>
+<h1><?php echo $table->name; ?> - add</h1>
 <form method="POST">
-  <input type="hidden" name="table" value="<?php echo $table; ?>">
+  <input type="hidden" name="table" value="<?php echo $table->name; ?>">
   <table>
     <?php echo $columnRows; ?>
     <tr>

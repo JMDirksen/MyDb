@@ -62,4 +62,11 @@ class Table {
   function getRecord(int $id) {
     return new Record($this, $id);
   }
+
+  function addRecord(array $values) {
+    $record = new Record($this);
+    $record->data = $values;
+    $record->save();
+    return $record;
+  }
 }

@@ -16,8 +16,9 @@
 - [x] Record class
 - [x] Table getRecord()
 - [x] edit_record (using Table getRecord())
-- [ ] Table addRecord()
-- [ ] add_record (using Table addRecord())
+- [x] Table addRecord()
+- [x] add_record (using Table addRecord())
+- [ ] view_table use Table
 - [ ] Class Table update method (existing table)
 - [ ] Options
 - [ ] User manager

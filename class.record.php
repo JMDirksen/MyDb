@@ -21,6 +21,11 @@ class Record {
   }
 
   function save() {
+    if ($this->id) $this->update();
+    else $this->insert();
+  }
+
+  function update() {
     global $dbh;
     $columns = $values = [];
     foreach ($this->data as $column => $value) {
@@ -31,5 +36,19 @@ class Record {
     $values[] = $this->id;
     $sth = $dbh->prepare("UPDATE `$this->table` SET $columns WHERE `id` = ?");
     $sth->execute($values);
+  }
+
+  function insert() {
+    global $dbh;
+    $columns = $values = [];
+    foreach ($this->data as $column => $value) {
+      $columns[] = "`$column`";
+      $placeholders[] = '?';
+    }
+    $columns = join(', ', $columns);
+    $placeholders = join(', ', $placeholders);
+    $sth = $dbh->prepare("INSERT INTO `$this->table` ($columns) VALUES ($placeholders)");
+    $sth->execute(array_values($this->data));
+    $this->id = $dbh->lastInsertId();
   }
 }
