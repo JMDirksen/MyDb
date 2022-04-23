@@ -13,7 +13,7 @@
 - [x] Breadcrums (simple)
 - [x] Integrate admin page in main (not separate dir)
 - [x] Split edit_record in add_ and edit_
-- [ ] Record class
+- [x] Record class
 - [ ] Table getRecord()
 - [ ] edit_record (using Table getRecord())
 - [ ] Table addRecord()
