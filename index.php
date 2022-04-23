@@ -1,8 +1,8 @@
 <?php
-require "init.php";
+require 'init.php';
 
-$pages = ['home', 'login', 'logout', 'view_table', 'edit_record', 'options'];
-$pageFile = (in_array($page = @$_GET['page'], $pages, true)) ? "./$page.php" : './home.php';
+$page = @$_GET['page'];
+$pageFile = (valid($page)) ? "./$page.php" : './home.php';
 ?>
 <!DOCTYPE html>
 <html>

@@ -9,6 +9,8 @@ spl_autoload_register(function ($class_name) {
   require 'class.' . strtolower($class_name) . '.php';
 });
 
+ini_set('allow_url_fopen', 0);
+
 if (DEBUG) {
   ini_set('error_reporting', E_ALL);
   ini_set('display_errors', 1);
