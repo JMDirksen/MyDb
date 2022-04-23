@@ -25,7 +25,7 @@ function isLoggedIn() {
 function valid($value, $type = 1) {
   switch ($type) {
     case 1:
-      return preg_match('/^[a-z][a-z0-9_]+$/', $value) === 1;
+      return preg_match('/^[a-z][a-z0-9_]*$/', $value) === 1;
       break;
   }
 }

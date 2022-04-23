@@ -1,11 +1,11 @@
 <?php
 class Table {
-  public $name;
-  public $display_name;
-  public $new;
-  public $columns = [];
+  public string $name;
+  public string $display_name;
+  public bool $new;
+  public array $columns;
 
-  function __construct($name, $new = false) {
+  function __construct(string $name, bool $new = false) {
     $this->name = $name;
     $this->display_name = ucfirst($name);
     $this->new = $new;
@@ -28,7 +28,7 @@ class Table {
     $sth->execute([$this->name]);
     $columns = $sth->fetchAll(PDO::FETCH_ASSOC);
     foreach ($columns as $column) {
-      $this->columns[] = new Column($this->name, $column['name']);
+      $this->columns[] = new Column($this, $column['name']);
     }
   }
 
@@ -57,5 +57,9 @@ class Table {
 
       $dbh->commit();
     }
+  }
+
+  function getRecord(int $id) {
+    return new Record($this, $id);
   }
 }

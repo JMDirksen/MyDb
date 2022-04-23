@@ -1,22 +1,20 @@
 <?php
 class Column {
-  public $table;
-  public $name;
-  public $display_name;
-  public $type;
-  public $sqlType;
-  public $new;
+  public string $table;
+  public string $name;
+  public string $display_name;
+  public string $type;
+  public string $sqlType;
 
-  function __construct($table, $name, $new = false) {
-    $this->table = $table;
+  function __construct(Table $table, string $name, bool $new = false) {
+    $this->table = $table->name;
     $this->name = $name;
     $this->display_name = ucfirst($name);
-    $this->new = $new;
-
+  
     if (!$new) $this->load();
   }
 
-  function setType($type) {
+  function setType(string $type) {
     $this->type = $type;
     $this->sqlType = str_replace(['text', 'number'], ['VARCHAR(255)', 'INT'], $type);
   }

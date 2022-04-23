@@ -9,7 +9,7 @@ if (isset($_POST['create_table'])) {
 
   for ($i = 1; $i <= $_POST['columns']; $i++) {
     if (!valid($name = $_POST["name$i"])) die('Invalid column name');
-    $column = new Column($tablename, $name, true);
+    $column = new Column($table, $name, true);
     $column->setType($_POST["type$i"]);
     $table->columns[] = $column;
   }

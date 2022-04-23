@@ -14,7 +14,7 @@
 - [x] Integrate admin page in main (not separate dir)
 - [x] Split edit_record in add_ and edit_
 - [x] Record class
-- [ ] Table getRecord()
+- [x] Table getRecord()
 - [ ] edit_record (using Table getRecord())
 - [ ] Table addRecord()
 - [ ] add_record (using Table addRecord())
