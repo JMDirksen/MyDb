@@ -2,13 +2,14 @@
 loginRequired();
 
 if (!valid($tableName = @$_GET['table'])) die('Invalid table name');
-$table = new Table($tableName);
 
 // Delete record
 if (isset($_GET['delete'])) {
-  (new Record($table, $_GET['delete']))->delete();
+  (new Record($tableName, $_GET['delete']))->delete();
   redirect('/?page=view_table&table=' . $tableName);
 }
+
+$table = new Table($tableName);
 
 // Columns
 $columnHtml = '';

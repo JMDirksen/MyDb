@@ -1,19 +1,20 @@
 <?php
 class Recordset {
-  public array $records;
+  public array $records = [];
 
-  function __construct(public Table $table) {
+  function __construct(public string $tableName) {
     $this->load();
   }
 
   function load() {
     global $dbh;
 
-    $sth = $dbh->prepare(sprintf('SELECT `id` FROM `%s`', $this->table->name));
+    $sth = $dbh->prepare(sprintf('SELECT * FROM `%s`', $this->tableName));
     $sth->execute();
     $data = $sth->fetchAll(PDO::FETCH_ASSOC);
     foreach ($data as $recordData) {
-      $record = new Record($this->table, $recordData['id']);
+      $record = new Record($this->tableName);
+      $record->setData($recordData);
       $this->records[] = $record;
     }
   }

@@ -1,12 +1,10 @@
 <?php
 class Table {
-  public string $name;
   public string $display_name;
   public bool $new;
   public array $columns;
 
-  function __construct(string $name, bool $new = false) {
-    $this->name = $name;
+  function __construct(public string $name, bool $new = false) {
     $this->display_name = ucfirst($name);
     $this->new = $new;
 
@@ -28,7 +26,7 @@ class Table {
     $sth->execute([$this->name]);
     $columns = $sth->fetchAll(PDO::FETCH_ASSOC);
     foreach ($columns as $column) {
-      $this->columns[] = new Column($this, $column['name']);
+      $this->columns[$column['name']] = new Column($this, $column['name']);
     }
   }
 
@@ -37,7 +35,7 @@ class Table {
 
     if ($this->new) {
       try {
-        $dbh->beginTransaction();
+        if(!$dbh->beginTransaction()) die('Unable to start transaction');
 
         // Save metadata table
         $sth = $dbh->prepare('INSERT INTO `s_table` (`name`, `display_name`) VALUES (?, ?)');
@@ -58,29 +56,29 @@ class Table {
 
         $dbh->commit();
       } catch (Exception $e) {
-        $dbh->rollBack();
+        @$dbh->rollBack();
         die("Failed: " . $e->getMessage());
       }
     }
   }
 
   function getRecord(int $id) {
-    return new Record($this, $id);
+    return new Record($this->name, $id);
   }
 
   function addRecord(array $values) {
-    $record = new Record($this);
+    $record = new Record($this->name);
     $record->data = $values;
     $record->save();
     return $record;
   }
 
   function deleteRecord(int $id) {
-    $record = new Record($this, $id);
+    $record = new Record($this->name, $id);
     $record->delete();
   }
 
   function getRecordset() {
-    return new Recordset($this);
+    return new Recordset($this->name);
   }
 }
