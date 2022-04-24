@@ -1,7 +1,7 @@
 <?php
 require 'init.php';
 
-$page = @$_GET['page'];
+$page = @$_GET['page'] ?? '';
 $pageFile = (valid($page) && is_file("./$page.php")) ? "./$page.php" : './home.php';
 ?>
 <!DOCTYPE html>

@@ -22,7 +22,7 @@ function isLoggedIn() {
   return false;
 }
 
-function valid($value, $type = 1) {
+function valid(string $value, int $type = 1) {
   switch ($type) {
     case 1:
       return preg_match('/^[a-z][a-z0-9_]*$/', $value) === 1;

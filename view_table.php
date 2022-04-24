@@ -1,45 +1,46 @@
 <?php
 loginRequired();
 
-if (!valid($table = @$_GET['table'])) die('Invalid table name');
+if (!valid($tableName = @$_GET['table'])) die('Invalid table name');
+$table = new Table($tableName);
 
 // Delete record
 if (isset($_GET['delete'])) {
-  $sth = $dbh->prepare("DELETE FROM `$table` WHERE `id` = ?");
-  $sth->execute([$_GET['delete']]);
-  redirect('/?page=view_table&table=' . $table);
+  (new Record($table, $_GET['delete']))->delete();
+  redirect('/?page=view_table&table=' . $tableName);
 }
-
-// Header
-echo "<h1>$table</h1>\n";
-echo "<a href=\"?page=add_record&table=$table\">Add</a>\n";
-echo "<table>\n";
-echo "<tr><th></th>";
 
 // Columns
-$sth = $dbh->prepare("SHOW COLUMNS FROM `$table`");
-$sth->execute();
-$columns = $sth->fetchAll(PDO::FETCH_ASSOC);
-foreach ($columns as $column) {
-  if ($column['Field'] == 'id') continue;
-  echo "<th>$column[Field]</th>";
+$columnHtml = '';
+foreach ($table->columns as $column) {
+  $columnHtml .= "<th>$column->display_name</th>";
 }
-echo "</tr>\n";
 
-// Rows
-$sth = $dbh->prepare("SELECT * FROM `$table`");
-$sth->execute();
-$result = $sth->fetchAll(PDO::FETCH_ASSOC);
-foreach ($result as $row) {
-  echo '<tr><td>';
-  echo "<a href=\"?page=edit_record&table=$table&id=$row[id]\">E</a> ";
-  echo "<a href=\"?page=view_table&table=$table&delete=$row[id]\" onClick=\"return confirm('Delete record $row[id]?')\">X</a>";
-  echo '</td>';
-  foreach ($row as $key => $value) {
-    if ($key == 'id') continue;
-    echo "<td>$value</td>";
+// Data
+$recordset = $table->getRecordset();
+$dataHtml = '';
+foreach ($recordset->records as $record) {
+  $dataHtml .= '<tr><td>' .
+    sprintf('<a href="?page=edit_record&table=%s&id=%d">E</a> ', $tableName, $record->id) .
+    sprintf(
+      '<a href="?page=view_table&table=%s&delete=%s" onClick="return confirm(\'Delete record %s?\')">X</a>',
+      $tableName,
+      $record->id,
+      $record->id
+    ) .
+    '</td>';
+  foreach ($record->data as $columnName => $value) {
+    $dataHtml .= sprintf('<td>%s</td>', $value);
   }
-  echo "</tr>\n";
+  $dataHtml .= '</tr>' . PHP_EOL;
 }
+?>
 
-echo "</table>\n";
+<h1><?php echo $tableName; ?></h1>
+<a href="?page=add_record&table=<?php echo $tableName; ?>">Add</a>
+<table>
+  <tr>
+    <th></th><?php echo $columnHtml; ?>
+  </tr>
+  <?php echo $dataHtml; ?>
+</table>

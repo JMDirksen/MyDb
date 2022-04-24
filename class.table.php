@@ -36,26 +36,31 @@ class Table {
     global $dbh;
 
     if ($this->new) {
-      $dbh->beginTransaction();
+      try {
+        $dbh->beginTransaction();
 
-      // Save metadata table
-      $sth = $dbh->prepare('INSERT INTO `s_table` (`name`, `display_name`) VALUES (?, ?)');
-      $sth->execute([$this->name, $this->display_name]);
+        // Save metadata table
+        $sth = $dbh->prepare('INSERT INTO `s_table` (`name`, `display_name`) VALUES (?, ?)');
+        $sth->execute([$this->name, $this->display_name]);
 
-      // Save metadata columns
-      foreach ($this->columns as $column) {
-        $sth = $dbh->prepare('INSERT INTO `s_column` (`table`, `name`, `display_name`, `type`) VALUES (?, ?, ?, ?)');
-        $sth->execute([$column->table, $column->name, $column->display_name, $column->type]);
+        // Save metadata columns
+        foreach ($this->columns as $column) {
+          $sth = $dbh->prepare('INSERT INTO `s_column` (`table`, `name`, `display_name`, `type`) VALUES (?, ?, ?, ?)');
+          $sth->execute([$column->table, $column->name, $column->display_name, $column->type]);
+        }
+
+        // Save table
+        foreach ($this->columns as $column)
+          $columnstring[] = "`$column->name` $column->sqlType";
+        $columnstring = join(', ', $columnstring);
+        $sth = $dbh->prepare("CREATE TABLE `$this->name` (`id` INT AUTO_INCREMENT PRIMARY KEY, $columnstring)");
+        $sth->execute();
+
+        $dbh->commit();
+      } catch (Exception $e) {
+        $dbh->rollBack();
+        die("Failed: " . $e->getMessage());
       }
-
-      // Save table
-      foreach ($this->columns as $column)
-        $columnstring[] = "`$column->name` $column->sqlType";
-      $columnstring = join(', ', $columnstring);
-      $sth = $dbh->prepare("CREATE TABLE `$this->name` (`id` INT AUTO_INCREMENT PRIMARY KEY, $columnstring)");
-      $sth->execute();
-
-      $dbh->commit();
     }
   }
 
@@ -68,5 +73,14 @@ class Table {
     $record->data = $values;
     $record->save();
     return $record;
+  }
+
+  function deleteRecord(int $id) {
+    $record = new Record($this, $id);
+    $record->delete();
+  }
+
+  function getRecordset() {
+    return new Recordset($this);
   }
 }

@@ -51,4 +51,10 @@ class Record {
     $sth->execute(array_values($this->data));
     $this->id = $dbh->lastInsertId();
   }
+
+  function delete() {
+    global $dbh;
+    $sth = $dbh->prepare("DELETE FROM `$this->table` WHERE `id` = ?");
+    $sth->execute([$this->id]);
+  }
 }
