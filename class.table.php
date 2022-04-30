@@ -11,7 +11,7 @@ class Table {
     if (!$new) $this->load();
   }
 
-  function load() {
+  function load(): void {
     global $dbh;
 
     // Load table
@@ -30,55 +30,57 @@ class Table {
     }
   }
 
-  function save() {
+  function save(): void {
     global $dbh;
 
     if ($this->new) {
-      try {
-        if(!$dbh->beginTransaction()) die('Unable to start transaction');
+      if (!$dbh->beginTransaction()) die('Unable to start transaction');
 
-        // Save metadata table
-        $sth = $dbh->prepare('INSERT INTO `s_table` (`name`, `display_name`) VALUES (?, ?)');
-        $sth->execute([$this->name, $this->display_name]);
+      // Save metadata table
+      $sth = $dbh->prepare('INSERT INTO `s_table` (`name`, `display_name`) VALUES (?, ?)');
+      $sth->execute([$this->name, $this->display_name]);
 
-        // Save metadata columns
-        foreach ($this->columns as $column) {
-          $sth = $dbh->prepare('INSERT INTO `s_column` (`table`, `name`, `display_name`, `type`) VALUES (?, ?, ?, ?)');
-          $sth->execute([$column->table, $column->name, $column->display_name, $column->type]);
-        }
-
-        // Save table
-        foreach ($this->columns as $column)
-          $columnstring[] = "`$column->name` $column->sqlType";
-        $columnstring = join(', ', $columnstring);
-        $sth = $dbh->prepare("CREATE TABLE `$this->name` (`id` INT AUTO_INCREMENT PRIMARY KEY, $columnstring)");
-        $sth->execute();
-
-        $dbh->commit();
-      } catch (Exception $e) {
-        @$dbh->rollBack();
-        die("Failed: " . $e->getMessage());
+      // Save metadata columns
+      foreach ($this->columns as $column) {
+        $sth = $dbh->prepare('INSERT INTO `s_column` (`table`, `name`, `display_name`, `type`) VALUES (?, ?, ?, ?)');
+        $sth->execute([$column->table, $column->name, $column->display_name, $column->type]);
       }
+
+      $dbh->commit();
+
+      // Save table
+      foreach ($this->columns as $column) {
+        $name = $column->name;
+        $sqlType = $this->toSqlType($column->type);
+        $columnstring[] = "`$name` $sqlType";
+      }
+      $columnstring = join(', ', $columnstring);
+      $sth = $dbh->prepare("CREATE TABLE `$this->name` (`id` INT AUTO_INCREMENT PRIMARY KEY, $columnstring)");
+      $sth->execute();
     }
   }
 
-  function getRecord(int $id) {
+  function getRecord(int $id): Record {
     return new Record($this->name, $id);
   }
 
-  function addRecord(array $values) {
+  function addRecord(array $values): Record {
     $record = new Record($this->name);
     $record->data = $values;
     $record->save();
     return $record;
   }
 
-  function deleteRecord(int $id) {
+  function deleteRecord(int $id): void {
     $record = new Record($this->name, $id);
     $record->delete();
   }
 
-  function getRecordset() {
+  function getRecordset(): Recordset {
     return new Recordset($this->name);
+  }
+
+  function toSqlType(string $type): string {
+    return str_replace(['text', 'number'], ['VARCHAR(255)', 'INT'], $type);
   }
 }
