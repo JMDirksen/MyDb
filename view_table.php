@@ -10,6 +10,7 @@ if (isset($_GET['delete'])) {
 }
 
 $table = new Table($tableName);
+$display_name = $table->display_name;
 
 // Columns
 $columnHtml = '';
@@ -37,7 +38,7 @@ foreach ($recordset->records as $record) {
 }
 ?>
 
-<h1><?php echo $tableName; ?></h1>
+<h1><?php echo $display_name; ?></h1>
 <a href="?page=add_record&table=<?php echo $tableName; ?>">Add</a>
 <table>
   <tr>

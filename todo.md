@@ -20,6 +20,12 @@
 - [x] add_record (using Table addRecord())
 - [x] Class Recordset
 - [x] view_table use Classes
+- [.] Add display name (table/column names)
+- [ ] Add type date
+- [ ] Add type date time
+- [ ] Add type time
+- [ ] Add type checkbox
+- [ ] Add default values
 - [ ] Class Table update method (existing table)
 - [ ] Options
 - [ ] User manager

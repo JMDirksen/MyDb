@@ -6,7 +6,7 @@ if (isset($_POST['create_table'])) {
   if (!valid($tablename = strtolower($_POST['name']))) die('Invalid table name');
 
   $table = new Table($tablename, true);
-
+  $table->display_name = htmlspecialchars($_POST['display_name'], ENT_QUOTES);
   for ($i = 1; $i <= (int)$_POST['columns']; $i++) {
     if (!valid($name = strtolower($_POST["name$i"]))) die('Invalid column name');
     $column = new Column($table, $name, true);
@@ -30,6 +30,10 @@ elseif (isset($_GET['name']) && isset($_GET['columns'])) {
       <tr>
         <td>Name</td>
         <td><input type="text" name="name" value="<?php echo $table; ?>" required></td>
+      </tr>
+      <tr>
+        <td>Display name</td>
+        <td><input type="text" name="display_name" value="<?php echo ucfirst($table); ?>" required></td>
       </tr>
     </table>
     <table>
