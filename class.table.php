@@ -2,7 +2,7 @@
 class Table {
   public string $display_name;
   public bool $new;
-  public array $columns;
+  public array $columns = [];
 
   function __construct(public string $name, bool $new = false) {
     $this->display_name = ucfirst($name);
@@ -35,6 +35,7 @@ class Table {
 
     if ($this->new) {
       if (!$dbh->beginTransaction()) die('Unable to start transaction');
+      if(!count($this->columns)) die('No columns defined');
 
       // Save metadata table
       $sth = $dbh->prepare('INSERT INTO `s_table` (`name`, `display_name`) VALUES (?, ?)');

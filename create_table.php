@@ -3,12 +3,12 @@ loginRequired('admin');
 
 // Create table
 if (isset($_POST['create_table'])) {
-  if (!valid($tablename = $_POST['name'])) die('Invalid table name');
+  if (!valid($tablename = strtolower($_POST['name']))) die('Invalid table name');
 
   $table = new Table($tablename, true);
 
-  for ($i = 1; $i <= $_POST['columns']; $i++) {
-    if (!valid($name = $_POST["name$i"])) die('Invalid column name');
+  for ($i = 1; $i <= (int)$_POST['columns']; $i++) {
+    if (!valid($name = strtolower($_POST["name$i"]))) die('Invalid column name');
     $column = new Column($table, $name, true);
     $column->type = $_POST["type$i"];
     $table->columns[] = $column;
@@ -21,10 +21,11 @@ if (isset($_POST['create_table'])) {
 
 // Form with columns
 elseif (isset($_GET['name']) && isset($_GET['columns'])) {
-  if (!valid($table = $_GET['name'])) die('Invalid table name');
+  if (!valid($table = strtolower($_GET['name']))) die('Invalid table name');
+  $columnCount = (int)$_GET['columns'];
 ?>
   <form method="POST">
-    <input type="hidden" name="columns" value="<?php echo $_GET['columns']; ?>">
+    <input type="hidden" name="columns" value="<?php echo $columnCount; ?>">
     <table>
       <tr>
         <td>Name</td>
@@ -33,7 +34,7 @@ elseif (isset($_GET['name']) && isset($_GET['columns'])) {
     </table>
     <table>
       <?php
-      for ($i = 1; $i <= $_GET['columns']; $i++) {
+      for ($i = 1; $i <= $columnCount; $i++) {
         echo "<tr>\n";
         echo "<td>$i</td>\n";
         echo "<td><input type=\"text\" name=\"name$i\" placeholder=\"columnname\" required></td>\n";
