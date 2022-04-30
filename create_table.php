@@ -11,6 +11,7 @@ if (isset($_POST['create_table'])) {
     if (!valid($name = strtolower($_POST["name$i"]))) die('Invalid column name');
     $column = new Column($table, $name, true);
     $column->type = $_POST["type$i"];
+    $column->display_name = htmlspecialchars($_POST["display_name$i"], ENT_QUOTES);
     $table->columns[] = $column;
   }
 
@@ -23,32 +24,44 @@ if (isset($_POST['create_table'])) {
 elseif (isset($_GET['name']) && isset($_GET['columns'])) {
   if (!valid($table = strtolower($_GET['name']))) die('Invalid table name');
   $columnCount = (int)$_GET['columns'];
+  $display_name = ucfirst($table);
+  $columnsHTML = '';
+  for ($i = 1; $i <= $columnCount; $i++) {
+    $columnsHTML .= sprintf(
+      '<tr>' .
+        '<td>%1$d</td>' .
+        '<td><input type="text" name="name%1$d" placeholder="columnname" value="column%1$d" required></td>' .
+        '<td><select name="type%1$d">' .
+        '<option title="A string of maximum 255 characters">text</option>' .
+        '<option title="A whole number">number</option>' .
+        '</select></td>' .
+        '<td><input type="text" name="display_name%1$d" placeholder="Display name" value="Column %1$d" required></td>' .
+        '</tr>',
+      $i
+    );
+  }
+
 ?>
   <form method="POST">
     <input type="hidden" name="columns" value="<?php echo $columnCount; ?>">
     <table>
       <tr>
-        <td>Name</td>
+        <th>Name</th>
         <td><input type="text" name="name" value="<?php echo $table; ?>" required></td>
       </tr>
       <tr>
-        <td>Display name</td>
-        <td><input type="text" name="display_name" value="<?php echo ucfirst($table); ?>" required></td>
+        <th>Display name</th>
+        <td><input type="text" name="display_name" value="<?php echo $display_name; ?>" required></td>
       </tr>
     </table>
     <table>
-      <?php
-      for ($i = 1; $i <= $columnCount; $i++) {
-        echo "<tr>\n";
-        echo "<td>$i</td>\n";
-        echo "<td><input type=\"text\" name=\"name$i\" placeholder=\"columnname\" required></td>\n";
-        echo "<td><select name=\"type$i\">\n";
-        echo "  <option title=\"A string of maximum 255 characters\">text</option>\n";
-        echo "  <option title=\"A whole number\">number</option>\n";
-        echo "</select></td>\n";
-        echo "</tr>\n";
-      }
-      ?>
+      <tr>
+        <th>#</th>
+        <th>Column name</th>
+        <th>Type</th>
+        <th>Display name</th>
+      </tr>
+      <?php echo $columnsHTML; ?>
     </table>
     <input type="submit" name="create_table" value="Create">
   </form>
