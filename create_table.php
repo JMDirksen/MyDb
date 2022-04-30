@@ -32,8 +32,11 @@ elseif (isset($_GET['name']) && isset($_GET['columns'])) {
         '<td>%1$d</td>' .
         '<td><input type="text" name="name%1$d" placeholder="columnname" value="column%1$d" required></td>' .
         '<td><select name="type%1$d">' .
-        '<option title="A string of maximum 255 characters">text</option>' .
+        '<option title="A date">date</option>' .
+        '<option title="A date and time">datetime</option>' .
+        '<option title="A time">time</option>' .
         '<option title="A whole number">number</option>' .
+        '<option title="A string of maximum 255 characters" selected>text</option>' .
         '</select></td>' .
         '<td><input type="text" name="display_name%1$d" placeholder="Display name" value="Column %1$d" required></td>' .
         '</tr>',

@@ -21,16 +21,16 @@
 - [x] Class Recordset
 - [x] view_table use Classes
 - [x] Add display name (table/column names)
-- [ ] Add type date
-- [ ] Add type date time
-- [ ] Add type time
+- [x] Add type date
+- [x] Add type date time
+- [x] Add type time
 - [ ] Add type checkbox
 - [ ] Add default values
+- [ ] Required columns
 - [ ] Class Table update method (existing table)
 - [ ] Options
 - [ ] User manager
 - [ ] User permissions (type)
 - [ ] Breadcrums
-- [ ] Required columns
 - [ ] CSV Export
 - [ ] CSV Import

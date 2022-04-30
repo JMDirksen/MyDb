@@ -24,4 +24,13 @@ class Column {
     $this->display_name = $column['display_name'];
     $this->type = $column['type'];
   }
+
+  function getHtmlType(): string {
+    switch ($this->type) {
+      case 'datetime':
+        return 'datetime-local';
+      default:
+        return $this->type;
+    }
+  }
 }

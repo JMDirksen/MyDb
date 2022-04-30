@@ -7,8 +7,8 @@ if (isset($_POST['edit_record'])) {
   $id = (int)$_POST['id'];
   $table = new Table($tableName);
   $record = $table->getRecord($id);
-  foreach($record->data as $columnName => $value) {
-    $record->data[$columnName] = $_POST['column_'.$columnName];
+  foreach ($record->data as $columnName => $value) {
+    $record->data[$columnName] = $_POST['column_' . $columnName];
   }
   $record->save();
 
@@ -25,9 +25,9 @@ foreach ($record->columns as $column) {
   $columnRows .= sprintf(
     '<tr><td>%s</td><td><input type="%s" name="column_%s" value="%s"></td></tr>' . PHP_EOL,
     $column->display_name,
-    $column->type,
+    $column->getHtmlType(),
     $column->name,
-    $record->data[$column->name]
+    ($column->type == 'datetime') ? str_replace(' ', 'T', $record->data[$column->name]) : $record->data[$column->name]
   );
 }
 ?>

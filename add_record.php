@@ -23,7 +23,7 @@ foreach ($table->columns as $column) {
   $columnRows .= sprintf(
     '<tr><td>%s</td><td><input type="%s" name="column_%s" value=""></td></tr>' . PHP_EOL,
     $column->display_name,
-    $column->type,
+    $column->getHtmlType(),
     $column->name,
   );
 }

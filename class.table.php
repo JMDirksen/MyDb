@@ -84,6 +84,13 @@ class Table {
   }
 
   function toSqlType(string $type): string {
-    return str_replace(['text', 'number'], ['VARCHAR(255)', 'INT'], $type);
+    switch ($type) {
+      case 'text':
+        return 'VARCHAR(255)';
+      case 'number':
+        return 'INT';
+      default:
+        return strtoupper($type);
+    }
   }
 }
