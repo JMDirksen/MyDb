@@ -8,8 +8,13 @@ class Recordset {
 
   function load() {
     global $dbh;
-
-    $sth = $dbh->prepare(sprintf('SELECT * FROM `%s`', $this->tableName));
+    $table = new Table($this->tableName);
+    $select = ['`id`'];
+    foreach($table->columns as $column) {
+      $select[] = "`$column->name`";
+    }
+    $select = join(', ',$select);
+    $sth = $dbh->prepare(sprintf('SELECT %s FROM `%s`', $select, $this->tableName));
     $sth->execute();
     $data = $sth->fetchAll(PDO::FETCH_ASSOC);
     foreach ($data as $recordData) {
