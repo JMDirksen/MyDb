@@ -33,9 +33,11 @@ class Table {
   function save(): void {
     global $dbh;
 
+    if (str_starts_with($this->name, 's_')) die('Table prefix s_ is reserved for system tables');
+
     if ($this->new) {
       if (!$dbh->beginTransaction()) die('Unable to start transaction');
-      if(!count($this->columns)) die('No columns defined');
+      if (!count($this->columns)) die('No columns defined');
 
       // Save metadata table
       $sth = $dbh->prepare('INSERT INTO `s_table` (`name`, `display_name`) VALUES (?, ?)');
