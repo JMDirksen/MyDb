@@ -89,6 +89,8 @@ class Table {
         return 'VARCHAR(255)';
       case 'number':
         return 'INT';
+      case 'checkbox':
+        return 'BOOLEAN';
       default:
         return strtoupper($type);
     }

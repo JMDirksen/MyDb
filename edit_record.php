@@ -8,7 +8,7 @@ if (isset($_POST['edit_record'])) {
   $table = new Table($tableName);
   $record = $table->getRecord($id);
   foreach ($record->data as $columnName => $value) {
-    $record->data[$columnName] = $_POST['column_' . $columnName];
+    $record->data[$columnName] = $_POST['column_' . $columnName] ?? '0';
   }
   $record->save();
 
@@ -22,12 +22,20 @@ $table = new Table($table);
 $record = $table->getRecord($id);
 $columnRows = '';
 foreach ($record->columns as $column) {
+  // DateTime formatting
+  $value = ($column->type == 'datetime') ? str_replace(' ', 'T', $record->data[$column->name]) : $record->data[$column->name];
+  // Checkbox
+  if ($column->type == 'checkbox') {
+    $checked = ($record->data[$column->name] == '1') ? ' checked' : '';
+    $value = '1';
+  } else $checked = '';
   $columnRows .= sprintf(
-    '<tr><td>%s</td><td><input type="%s" name="column_%s" value="%s"></td></tr>' . PHP_EOL,
+    '<tr><td>%s</td><td><input type="%s" name="column_%s" value="%s"%s></td></tr>' . PHP_EOL,
     $column->display_name,
     $column->getHtmlType(),
     $column->name,
-    ($column->type == 'datetime') ? str_replace(' ', 'T', $record->data[$column->name]) : $record->data[$column->name]
+    $value,
+    $checked,
   );
 }
 ?>

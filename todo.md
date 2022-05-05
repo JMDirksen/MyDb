@@ -24,7 +24,7 @@
 - [x] Add type date
 - [x] Add type date time
 - [x] Add type time
-- [ ] Add type checkbox
+- [x] Add type checkbox
 - [ ] Add default values
 - [ ] Required columns
 - [ ] Class Table update method (existing table)
@@ -34,3 +34,5 @@
 - [ ] Breadcrums
 - [ ] CSV Export
 - [ ] CSV Import
+- [ ] Add type image
+- [ ] Tables to fieldset/label

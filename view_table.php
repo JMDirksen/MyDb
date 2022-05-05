@@ -31,7 +31,13 @@ foreach ($recordset->records as $record) {
       $record->id
     ) .
     '</td>';
-  foreach ($record->data as $columnName => $value) {
+  foreach ($record->columns as $column) {
+    $value = $record->data[$column->name];
+    // Checkbox value
+    if ($column->type == 'checkbox')
+      $value = ($value == '1') ?
+        '<input type="checkbox" checked onclick="return false">' :
+        '<input type="checkbox" onclick="return false">';
     $dataHtml .= sprintf('<td>%s</td>', $value);
   }
   $dataHtml .= '</tr>' . PHP_EOL;

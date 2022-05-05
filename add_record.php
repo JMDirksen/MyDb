@@ -7,7 +7,12 @@ if (isset($_POST['add_record'])) {
   $table = new Table($tableName);
   $data = [];
   foreach ($table->columns as $column) {
-    if (!isset($_POST['column_' . $column->name])) continue;
+    if (!isset($_POST['column_' . $column->name])) {
+      if ($column->type == 'checkbox') {
+        $data[$column->name] = '0';
+      }
+      continue;
+    }
     $data[$column->name] = $_POST['column_' . $column->name];
   }
   $record = $table->addRecord($data);
@@ -20,11 +25,14 @@ if (!valid($table = $_GET['table'])) die('Invalid table name');
 $table = new Table($table);
 $columnRows = '';
 foreach ($table->columns as $column) {
+  // Checkbox value
+  $value = ($column->getHtmlType() == 'checkbox') ? '1' : '';
   $columnRows .= sprintf(
-    '<tr><td>%s</td><td><input type="%s" name="column_%s" value=""></td></tr>' . PHP_EOL,
+    '<tr><td>%s</td><td><input type="%s" name="column_%s" value="%s"></td></tr>' . PHP_EOL,
     $column->display_name,
     $column->getHtmlType(),
     $column->name,
+    $value,
   );
 }
 ?>
