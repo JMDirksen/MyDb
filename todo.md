@@ -36,3 +36,4 @@
 - [ ] CSV Import
 - [ ] Add type image
 - [ ] Tables to fieldset/label
+- [ ] Make beautiful (CSS style)
