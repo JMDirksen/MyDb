@@ -31,15 +31,15 @@ foreach ($record->columns as $column) {
   } else $checked = '';
   $columnRows .= sprintf(
     '<tr><td>%s</td><td><input type="%s" name="column_%s" value="%s"%s></td></tr>' . PHP_EOL,
-    htmlentities($column->display_name),
+    htmlspecialchars($column->display_name),
     $column->getHtmlType(),
     $column->name,
-    htmlentities($value),
+    htmlspecialchars($value),
     $checked,
   );
 }
 ?>
-<h1><?php echo sprintf('%s - %d', htmlentities($table->name), $id); ?></h1>
+<h1><?php echo sprintf('%s - %d', htmlspecialchars($table->name), $id); ?></h1>
 <form method="POST">
   <input type="hidden" name="table" value="<?php echo $table->name; ?>">
   <input type="hidden" name="id" value="<?php echo $id; ?>">

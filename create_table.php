@@ -6,12 +6,12 @@ if (isset($_POST['create_table'])) {
   if (!valid($tablename = strtolower($_POST['name']))) die('Invalid table name');
 
   $table = new Table($tablename, true);
-  $table->display_name = htmlspecialchars($_POST['display_name'], ENT_QUOTES);
+  $table->display_name = htmlspecialchars($_POST['display_name']);
   for ($i = 1; $i <= (int)$_POST['columns']; $i++) {
     if (!valid($name = strtolower($_POST["name$i"]))) die('Invalid column name');
     $column = new Column($table, $name, true);
     $column->type = $_POST["type$i"];
-    $column->display_name = htmlspecialchars($_POST["display_name$i"], ENT_QUOTES);
+    $column->display_name = htmlspecialchars($_POST["display_name$i"]);
     $table->columns[] = $column;
   }
 

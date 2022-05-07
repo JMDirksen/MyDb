@@ -15,7 +15,7 @@ $display_name = $table->display_name;
 // Columns
 $columnHtml = '';
 foreach ($table->columns as $column) {
-  $columnHtml .= sprintf('<th>%s</th>', htmlentities($column->display_name));
+  $columnHtml .= sprintf('<th>%s</th>', htmlspecialchars($column->display_name));
 }
 
 // Data
@@ -32,19 +32,19 @@ foreach ($recordset->records as $record) {
     ) .
     '</td>';
   foreach ($record->columns as $column) {
-    $value = $record->data[$column->name];
+    $value = htmlspecialchars($record->data[$column->name]);
     // Checkbox value
     if ($column->type == 'checkbox')
       $value = ($value == '1') ?
         '<input type="checkbox" checked onclick="return false">' :
         '<input type="checkbox" onclick="return false">';
-    $dataHtml .= sprintf('<td>%s</td>', htmlentities($value));
+    $dataHtml .= sprintf('<td>%s</td>', $value);
   }
   $dataHtml .= '</tr>' . PHP_EOL;
 }
 ?>
 
-<h1><?php echo htmlentities($display_name); ?></h1>
+<h1><?php echo htmlspecialchars($display_name); ?></h1>
 <a href="?page=add_record&table=<?php echo $tableName; ?>">Add</a>
 <table>
   <tr>

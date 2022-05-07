@@ -14,7 +14,7 @@ foreach ($tableList as $t) {
     '<option value="%s"%s>%s</option>',
     $t['name'],
     $selected,
-    htmlentities($t['display_name']),
+    htmlspecialchars($t['display_name']),
   );
 }
 $tableDropdown .= '</select> ';
@@ -28,7 +28,7 @@ foreach ($table->columns as $column) {
     '<label><input type="checkbox" name="columns[]" value="%s" %s>%s</label><br />',
     $column->name,
     $checked,
-    htmlentities($column->display_name),
+    htmlspecialchars($column->display_name),
   );
 }
 

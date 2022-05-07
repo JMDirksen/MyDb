@@ -9,7 +9,7 @@ foreach ($tables as $table) {
   $tableList .= sprintf(
     '<li><a href="?page=view_table&table=%s">%s</a></li>',
     $table['name'],
-    htmlentities($table['display_name']),
+    htmlspecialchars($table['display_name']),
   );
 }
 ?>

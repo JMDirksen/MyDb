@@ -21,7 +21,7 @@ foreach ($tableList as $table)
   $tableDropdown .= sprintf(
     '<option value="%s">%s</option>',
     $table['name'],
-    htmlentities($table['display_name']),
+    htmlspecialchars($table['display_name']),
   );
 $tableDropdown .= '</select> ';
 ?>
