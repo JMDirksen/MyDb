@@ -1,5 +1,11 @@
 # To do
 
+## Fix bugs
+
+- [ ] edit_record html input text value with double-quotes -> htmlentities()
+
+## Features
+
 - [x] Create table
 - [x] View table
 - [x] Edit record
@@ -32,7 +38,7 @@
 - [ ] User manager
 - [ ] User permissions (type)
 - [ ] Breadcrums
-- [ ] CSV Export
+- [x] CSV Export
 - [ ] CSV Import
 - [ ] Add type image
 - [ ] Tables to fieldset/label

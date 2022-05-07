@@ -29,3 +29,8 @@ function valid(string $value, int $type = 1) {
       break;
   }
 }
+
+function addBackticks(string $string): string {
+  $elements = array_map('trim', explode(',', $string));
+  return '`' . implode('`, `', $elements) . '`';
+}

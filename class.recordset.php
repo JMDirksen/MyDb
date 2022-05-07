@@ -2,18 +2,22 @@
 class Recordset {
   public array $records = [];
 
-  function __construct(public string $tableName) {
-    $this->load();
+  function __construct(public string $tableName, array $select = []) {
+    $this->load($select);
   }
 
-  function load() {
+  function load(array $select = []) {
     global $dbh;
-    $table = new Table($this->tableName);
-    $select = ['`id`'];
-    foreach ($table->columns as $column) {
-      $select[] = "`$column->name`";
+    if (count($select)) {
+      $select = addBackticks('id,' . implode(',', $select));
+    } else {
+      $table = new Table($this->tableName);
+      $select = ['`id`'];
+      foreach ($table->columns as $column) {
+        $select[] = "`$column->name`";
+      }
+      $select = join(', ', $select);
     }
-    $select = join(', ', $select);
     $sth = $dbh->prepare(sprintf('SELECT %s FROM `%s`', $select, $this->tableName));
     $sth->execute();
     $data = $sth->fetchAll(PDO::FETCH_ASSOC);
