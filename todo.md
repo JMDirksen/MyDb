@@ -43,3 +43,5 @@
 - [ ] Add type image
 - [ ] Tables to fieldset/label
 - [ ] Make beautiful (CSS style)
+- [ ] No JavaScript (no onclick), confirm page
+- [x] No POST page (always redirect after POST), use GET instead
