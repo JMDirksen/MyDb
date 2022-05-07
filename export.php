@@ -21,18 +21,16 @@ $tableDropdown .= '</select> ';
 
 // Columns selection
 $table = new Table($_GET['table']);
-$columnCount = count($table->columns);
-$columnsSelect = sprintf('<select name="columns[]" size="%d" multiple>', $columnCount);
+$columnsSelect = '';
 foreach ($table->columns as $column) {
-  $selected = (isset($_GET['columns']) && in_array($column->name, $_GET['columns'])) ? ' selected' : '';
+  $checked = (isset($_GET['columns']) && in_array($column->name, $_GET['columns'])) ? ' checked' : '';
   $columnsSelect .= sprintf(
-    '<option value="%s"%s>%s</option>',
+    '<label><input type="checkbox" name="columns[]" value="%s" %s>%s</label><br />',
     $column->name,
-    $selected,
+    $checked,
     htmlentities($column->display_name),
   );
 }
-$columnsSelect .= '</select> ';
 
 // Generate export link
 if (isset($_GET['getlink'])) {
@@ -55,9 +53,10 @@ if (isset($_GET['getlink'])) {
 <form method="GET">
   <input type="hidden" name="page" value="export">
   <input type="hidden" name="table" value="<?php echo $tableName; ?>">
-  <label for="columns">Select columns</label><br />
-  <?php echo $columnsSelect; ?><br />
-  <input type="hidden" name="getlink">
+  <fieldset><legend>Select columns</legend>
+  <?php echo $columnsSelect; ?>
+  </fieldset>
+  <input type="hidden" name="getlink" value=1>
   <input type="submit" value="Get export link">
 </form>
 
