@@ -19,7 +19,12 @@ $tableList = $sth->fetchAll(PDO::FETCH_ASSOC);
 $tableDropdown = '<select name="table">';
 foreach ($tableList as $t) {
   $selected = ($t['name'] == $table) ? ' selected' : '';
-  $tableDropdown .= sprintf('<option value="%s"%s>%s</option>', $t['name'], $selected, $t['display_name']);
+  $tableDropdown .= sprintf(
+    '<option value="%s"%s>%s</option>',
+    $t['name'],
+    $selected,
+    htmlentities($t['display_name']),
+  );
 }
 $tableDropdown .= '</select> ';
 
@@ -29,7 +34,12 @@ $columnCount = count($table->columns);
 $columnsSelect = sprintf('<select name="columns[]" size="%d" multiple>', $columnCount);
 foreach ($table->columns as $column) {
   $selected = (isset($_POST['columns']) && in_array($column->name, $_POST['columns'])) ? ' selected' : '';
-  $columnsSelect .= sprintf('<option value="%s"%s>%s</option>', $column->name, $selected, $column->display_name);
+  $columnsSelect .= sprintf(
+    '<option value="%s"%s>%s</option>',
+    $column->name,
+    $selected,
+    htmlentities($column->display_name),
+  );
 }
 $columnsSelect .= '</select> ';
 

@@ -1,13 +1,17 @@
 <?php
-  loginRequired();
+loginRequired();
 
-  $sth = $dbh->prepare('SELECT * FROM `s_table` WHERE NOT `hidden`');
-  $sth->execute();
-  $tables = $sth->fetchAll(PDO::FETCH_ASSOC);
-  $tableList = '';
-  foreach($tables as $table) {
-    $tableList .= "<li><a href=\"?page=view_table&table=$table[name]\">$table[display_name]</a></li>\n";
-  }
+$sth = $dbh->prepare('SELECT * FROM `s_table` WHERE NOT `hidden`');
+$sth->execute();
+$tables = $sth->fetchAll(PDO::FETCH_ASSOC);
+$tableList = '';
+foreach ($tables as $table) {
+  $tableList .= sprintf(
+    '<li><a href="?page=view_table&table=%s">%s</a></li>',
+    $table['name'],
+    htmlentities($table['display_name']),
+  );
+}
 ?>
 <ul>
   <?php echo $tableList; ?>

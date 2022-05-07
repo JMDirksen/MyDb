@@ -2,7 +2,7 @@
 
 ## Fix bugs
 
-- [ ] edit_record html input text value with double-quotes -> htmlentities()
+- [x] edit_record html input text value with double-quotes -> htmlentities()
 
 ## Features
 

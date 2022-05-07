@@ -18,7 +18,11 @@ $sth->execute();
 $tableList = $sth->fetchAll(PDO::FETCH_ASSOC);
 $tableDropdown = '<select name="table">';
 foreach ($tableList as $table)
-  $tableDropdown .= sprintf('<option value="%s">%s</option>', $table['name'], $table['display_name']);
+  $tableDropdown .= sprintf(
+    '<option value="%s">%s</option>',
+    $table['name'],
+    htmlentities($table['display_name']),
+  );
 $tableDropdown .= '</select> ';
 ?>
 <h1>admin</h1>

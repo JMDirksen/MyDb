@@ -15,7 +15,7 @@ $display_name = $table->display_name;
 // Columns
 $columnHtml = '';
 foreach ($table->columns as $column) {
-  $columnHtml .= "<th>$column->display_name</th>";
+  $columnHtml .= sprintf('<th>%s</th>', htmlentities($column->display_name));
 }
 
 // Data
@@ -28,7 +28,7 @@ foreach ($recordset->records as $record) {
       '<a href="?page=view_table&table=%s&delete=%s" onClick="return confirm(\'Delete record %s?\')">X</a>',
       $tableName,
       $record->id,
-      $record->id
+      $record->id,
     ) .
     '</td>';
   foreach ($record->columns as $column) {
@@ -38,13 +38,13 @@ foreach ($recordset->records as $record) {
       $value = ($value == '1') ?
         '<input type="checkbox" checked onclick="return false">' :
         '<input type="checkbox" onclick="return false">';
-    $dataHtml .= sprintf('<td>%s</td>', $value);
+    $dataHtml .= sprintf('<td>%s</td>', htmlentities($value));
   }
   $dataHtml .= '</tr>' . PHP_EOL;
 }
 ?>
 
-<h1><?php echo $display_name; ?></h1>
+<h1><?php echo htmlentities($display_name); ?></h1>
 <a href="?page=add_record&table=<?php echo $tableName; ?>">Add</a>
 <table>
   <tr>
