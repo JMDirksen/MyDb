@@ -43,6 +43,7 @@ class Record {
   }
 
   function insert() {
+    if(!count($this->data)) return;
     global $dbh;
     $columns = $values = [];
     foreach ($this->data as $column => $value) {

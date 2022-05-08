@@ -37,16 +37,17 @@ class Table {
 
     if ($this->new) {
       if (!$dbh->beginTransaction()) die('Unable to start transaction');
-      if (!count($this->columns)) die('No columns defined');
 
       // Save metadata table
       $sth = $dbh->prepare('INSERT INTO `s_table` (`name`, `display_name`) VALUES (?, ?)');
       $sth->execute([$this->name, $this->display_name]);
 
       // Save metadata columns
-      foreach ($this->columns as $column) {
-        $sth = $dbh->prepare('INSERT INTO `s_column` (`table`, `name`, `display_name`, `type`) VALUES (?, ?, ?, ?)');
-        $sth->execute([$column->table, $column->name, $column->display_name, $column->type]);
+      if (count($this->columns)) {
+        foreach ($this->columns as $column) {
+          $sth = $dbh->prepare('INSERT INTO `s_column` (`table`, `name`, `display_name`, `type`) VALUES (?, ?, ?, ?)');
+          $sth->execute([$column->table, $column->name, $column->display_name, $column->type]);
+        }
       }
 
       $dbh->commit();
@@ -57,8 +58,8 @@ class Table {
         $sqlType = $this->toSqlType($column->type);
         $columnstring[] = "`$name` $sqlType";
       }
-      $columnstring = join(', ', $columnstring);
-      $sth = $dbh->prepare("CREATE TABLE `$this->name` (`id` INT AUTO_INCREMENT PRIMARY KEY, $columnstring)");
+      $columnstring = (isset($columnstring)) ? ', '.join(', ', $columnstring) : '';
+      $sth = $dbh->prepare("CREATE TABLE `$this->name` (`id` INT AUTO_INCREMENT PRIMARY KEY $columnstring)");
       $sth->execute();
     }
   }

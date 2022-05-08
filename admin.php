@@ -3,9 +3,12 @@ loginRequired('admin');
 
 // Table Action
 if (isset($_POST['table-action'])) {
-  switch ($_POST['action']) {
+  switch ($_POST['table-action']) {
     case 'export':
       redirect(sprintf('?page=export&table=%s', $_POST['table']));
+      break;
+    case 'edit':
+      redirect(sprintf('?page=edit_table&table=%s', $_POST['table']));
       break;
     default:
       redirect();
@@ -26,14 +29,14 @@ foreach ($tableList as $table)
 $tableDropdown .= '</select> ';
 ?>
 <h1>admin</h1>
-<p><a href="?page=create_table">Create table</a><br /></p>
+<p><a href="?page=add_table">Add table</a><br /></p>
 <form method="POST">
   <?php echo $tableDropdown; ?>
-  <select name="action">
+  <select name="table-action">
     <option value="delete">Delete</option>
-    <option value="edit">Edit</option>
+    <option value="edit" selected>Edit</option>
     <option value="export">Export</option>
-    <option value="import">Import into</option>
+    <option value="import">Import</option>
   </select>
-  <input type="submit" name="table-action" value="Go">
+  <input type="submit" value="Go">
 </form>
