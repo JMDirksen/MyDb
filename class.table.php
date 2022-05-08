@@ -2,6 +2,7 @@
 class Table {
   public string $display_name;
   public bool $new;
+  /** @var Column[] $columns */
   public array $columns = [];
 
   function __construct(public string $name, bool $new = false) {

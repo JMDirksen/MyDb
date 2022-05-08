@@ -1,5 +1,6 @@
 <?php
 class Recordset {
+  /** @var Record[] $records */
   public array $records = [];
 
   function __construct(public string $tableName, array $select = []) {
