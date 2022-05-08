@@ -5,8 +5,9 @@ require 'config.php';
 require 'functions.php';
 
 // Auto load classes
-spl_autoload_register(function ($class_name) {
-  require 'class.' . strtolower($class_name) . '.php';
+spl_autoload_register(function ($class) {
+  if (is_readable($filename = 'class.' . strtolower($class) . '.php')) require_once $filename;
+  elseif (is_readable($filename = "FormFramework/$class.php")) require_once $filename;
 });
 
 ini_set('allow_url_fopen', 0);

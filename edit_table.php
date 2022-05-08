@@ -1,7 +1,7 @@
 <?php
 loginRequired('admin');
 
-// List columns
+// Columns list
 $table = new Table($_GET['table']);
 $columnList = '';
 foreach ($table->columns as $column)
