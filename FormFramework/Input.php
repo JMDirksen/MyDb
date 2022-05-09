@@ -6,7 +6,7 @@ class Input {
     public ?string $name = null,
     public ?string $value = null,
     public ?string $placeholder = null,
-    public string $label = '',
+    public ?string $label = null,
     public ?bool $checked = null,
     public ?bool $required = null,
   ) {
@@ -20,7 +20,7 @@ class Input {
 
     $html = '';
     if ($tabled) $html .= sprintf('<tr><th>%s</th><td>', $this->label);
-    else $html .= sprintf('<label>%s ', $this->label);
+    else if (isset($this->label)) $html .= sprintf('<label>%s ', $this->label);
     switch ($this->type) {
 
       case 'checkbox':
@@ -31,7 +31,7 @@ class Input {
           $this->name,
         );
         $html .= sprintf(
-          '<input type="checkbox"%s onchange="%s">',
+          '<input type="checkbox"%s onchange="%s"> ',
           $checked,
           $js,
         ) .
@@ -44,7 +44,7 @@ class Input {
 
       default:
         $html .= sprintf(
-          '<input type="%s"%s%s%s%s>',
+          '<input type="%s"%s%s%s%s> ',
           $this->type,
           $name,
           $placeholder,
@@ -53,7 +53,7 @@ class Input {
         );
     }
     if ($tabled) $html .= '</td></tr>';
-    else $html .= '</label> ';
+    else if (isset($this->label)) $html .= '</label> ';
     return $html;
   }
 }

@@ -14,7 +14,7 @@ class Select {
     foreach($this->options as $option) {
       $html .= $option->getHtml();
     }
-    $html .= '</select>';
+    $html .= '</select> ';
     return $html;
   }
 }

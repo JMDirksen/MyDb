@@ -15,28 +15,25 @@ if (isset($_POST['table-action'])) {
   }
 }
 
+echo '<h1>admin</h1>';
+echo '<p><a href="?page=add_table">Add table</a><br /></p>';
+
 // Table dropdown
 $sth = $dbh->prepare('SELECT `name`, `display_name` FROM `s_table` ORDER BY `display_name`');
 $sth->execute();
 $tableList = $sth->fetchAll(PDO::FETCH_ASSOC);
-$tableDropdown = '<select name="table">';
+
+$form = new Form();
+$form->elements[] = $tableSelect = new Select('table');
 foreach ($tableList as $table)
-  $tableDropdown .= sprintf(
-    '<option value="%s">%s</option>',
+  $tableSelect->options[] = new Option(
     $table['name'],
-    htmlspecialchars($table['display_name']),
+    htmlspecialchars($table['display_name'])
   );
-$tableDropdown .= '</select> ';
-?>
-<h1>admin</h1>
-<p><a href="?page=add_table">Add table</a><br /></p>
-<form method="POST">
-  <?php echo $tableDropdown; ?>
-  <select name="table-action">
-    <option value="delete">Delete</option>
-    <option value="edit" selected>Edit</option>
-    <option value="export">Export</option>
-    <option value="import">Import</option>
-  </select>
-  <input type="submit" value="Go">
-</form>
+$form->elements[] = $actionSelect = new Select('table-action');
+$actionSelect->options[] = new Option('delete', 'Delete');
+$actionSelect->options[] = new Option('edit', 'Edit', selected: true);
+$actionSelect->options[] = new Option('export', 'Export');
+$actionSelect->options[] = new Option('import', 'Import');
+$form->elements[] = new Input('submit', value: 'Go');
+echo $form->getHtml();
