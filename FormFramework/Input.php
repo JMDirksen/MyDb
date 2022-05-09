@@ -20,6 +20,7 @@ class Input {
 
     $html = '';
     if ($tabled) $html .= sprintf('<tr><th>%s</th><td>', $this->label);
+    else $html .= sprintf('<label>%s ', $this->label);
     switch ($this->type) {
 
       case 'checkbox':
@@ -52,6 +53,7 @@ class Input {
         );
     }
     if ($tabled) $html .= '</td></tr>';
+    else $html .= '</label> ';
     return $html;
   }
 }
