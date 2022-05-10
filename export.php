@@ -7,58 +7,43 @@ $tableName = $_GET['table'];
 $sth = $dbh->prepare('SELECT `name`, `display_name` FROM `s_table` ORDER BY `display_name`');
 $sth->execute();
 $tableList = $sth->fetchAll(PDO::FETCH_ASSOC);
-$tableDropdown = '<select name="table">';
+$form = new Form('GET');
+$form->elements[] = new Input('hidden', 'page', 'export');
+$form->elements[] = $s = new Select('table', $tableName, 'Table');
 foreach ($tableList as $t) {
-    $selected = ($t['name'] == $tableName) ? ' selected' : '';
-    $tableDropdown .= sprintf(
-        '<option value="%s"%s>%s</option>',
-        $t['name'],
-        $selected,
-        htmlspecialchars($t['display_name']),
-    );
+    $s->options[] = [$t['name'], $t['display_name']];
 }
-$tableDropdown .= '</select> ';
+$form->elements[] = new Input('submit', value: 'Select');
+echo $form->getHtml();
 
 // Columns selection
 $table = new Table($_GET['table']);
-$columnsSelect = '';
+$form = new Form('GET');
+$form->elements[] = new Input('hidden', 'page', 'export');
+$form->elements[] = new Input('hidden', 'table', $tableName);
+$form->elements[] = $s = new Select('columns[]', @$_GET['columns'], 'Select columns', true);
 foreach ($table->columns as $column) {
-    $checked = (isset($_GET['columns']) && in_array($column->name, $_GET['columns'])) ? ' checked' : '';
-    $columnsSelect .= sprintf(
-        '<label><input type="checkbox" name="columns[]" value="%s" %s>%s</label><br />',
-        $column->name,
-        $checked,
-        htmlspecialchars($column->display_name),
-    );
+    $s->options[] = [$column->name, $column->display_name];
 }
+$form->elements[] = new Input('hidden', 'getlink', 1);
+$form->elements[] = new Input('submit', value: 'Get export link');
+echo $form->getHtml();
 
 // Generate export link
 if (isset($_GET['getlink'])) {
-    $downloadUrl = sprintf('csv.php?table=%s&columns=%s', $tableName, join(',', $_GET['columns']));
+    $downloadUrl = sprintf(
+        'csv.php?table=%s&columns=%s',
+        $tableName,
+        join(',', $_GET['columns'])
+    );
     $showUrl = $downloadUrl . '&show';
 
-    $linksHtml = sprintf('<br /><a href="%s" target="_blank">Download CSV</a>', $downloadUrl) .
-        sprintf(' <small>(<a href="%s" target="_blank">show</a>)</small>', $showUrl);
+    $linksHtml = sprintf(
+        '<br /><a href="%s" target="_blank">Download CSV</a>' .
+            ' <small>(<a href="%s" target="_blank">show</a>)</small>',
+        $downloadUrl,
+        $showUrl
+    );
+
+    echo $linksHtml;
 }
-
-?>
-
-<form method="GET">
-    <input type="hidden" name="page" value="export">
-    <label for="table">Table</label>
-    <?php echo $tableDropdown; ?>
-    <input type="submit" value="Select">
-</form>
-
-<form method="GET">
-    <input type="hidden" name="page" value="export">
-    <input type="hidden" name="table" value="<?php echo $tableName; ?>">
-    <fieldset>
-        <legend>Select columns</legend>
-        <?php echo $columnsSelect; ?>
-    </fieldset>
-    <input type="hidden" name="getlink" value=1>
-    <input type="submit" value="Get export link">
-</form>
-
-<?php echo @$linksHtml; ?>

@@ -2,11 +2,13 @@
 
 class Select
 {
+    public array $options = [];
+
     function __construct(
         public ?string $name,
-        public array $options = [],
-        public ?string $selected = null,
+        public null|string|array $selected = null,
         public ?string $label = null,
+        public bool $multiple = false,
     ) {
     }
 
@@ -14,16 +16,21 @@ class Select
     {
         $html = '';
         if (isset($this->label)) $html .= sprintf('<label>%s ', $this->label);
-        $html .= sprintf('<select name="%s">', $this->name);
+        $multiple = ($this->multiple) ? ' multiple' : '';
+        $html .= sprintf('<select name="%s"%s>', $this->name, $multiple);
         foreach ($this->options as $option) {
-            $selected = ($option[0] == $this->selected) ? ' selected' : '';
+            if (gettype($this->selected) == 'array') {
+                $selected = (in_array($option[0], $this->selected)) ? ' selected' : '';
+            } else {
+                $selected = ($option[0] == $this->selected) ? ' selected' : '';
+            }
             $title = (isset($option[2])) ? sprintf(' title="%s"', $option[2]) : '';
             $html .= sprintf(
                 '<option value="%s"%s%s>%s</option>',
                 $option[0],
                 $title,
                 $selected,
-                $option[1],
+                htmlspecialchars($option[1], double_encode: false),
             );
         }
         $html .= '</select> ';
