@@ -30,6 +30,8 @@ foreach ($tableList as $table)
     $table['name'],
     htmlspecialchars($table['display_name'])
   ];
+
+// Action dropdown
 $form->elements[] = $actionSelect = new Select('table-action', selected: 'edit');
 $actionSelect->options[] = ['delete', 'Delete'];
 $actionSelect->options[] = ['edit', 'Edit'];

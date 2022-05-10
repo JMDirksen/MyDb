@@ -3,7 +3,7 @@ class Form {
   public array $elements;
 
   function __construct(
-    public Method $method = Method::POST,
+    public string $method = 'POST',
     public ?string $action = null,
   ) {
   }
@@ -13,7 +13,7 @@ class Form {
 
     $html = sprintf(
       '<form method="%s"%s>',
-      $this->method->value,
+      $this->method,
       $action,
     );
     if ($tabled) $html .= '<table>';
@@ -24,9 +24,4 @@ class Form {
     $html .= sprintf('</form>');
     return $html;
   }
-}
-
-enum Method: string {
-  case POST = 'POST';
-  case GET = 'GET';
 }
