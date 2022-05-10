@@ -1,63 +1,64 @@
 <?php
-class Input {
-
-  function __construct(
-    public string $type,
-    public ?string $name = null,
-    public ?string $value = null,
-    public ?string $placeholder = null,
-    public ?string $label = null,
-    public ?bool $checked = null,
-    public ?bool $required = null,
-    public bool $autofocus = false,
-  ) {
-  }
-
-  function getHtml(bool $tabled = false): string {
-    $name = (isset($this->name)) ? sprintf(' name="%s"', $this->name) : null;
-    $placeholder = (isset($this->placeholder)) ? sprintf(' placeholder="%s"', $this->placeholder) : null;
-    $value = (isset($this->value)) ? sprintf(' value="%s"', $this->value) : null;
-    $required = ($this->required) ? ' required' : null;
-    $autofocus = ($this->autofocus) ? ' autofocus' : null;
-
-    $html = '';
-    if ($tabled) $html .= sprintf('<tr><th>%s</th><td>', $this->label);
-    else if (isset($this->label)) $html .= sprintf('<label>%s ', $this->label);
-    switch ($this->type) {
-
-      case 'checkbox':
-        $checked = ($this->checked) ? ' checked' : null;
-        $value = ($this->checked) ? '1' : '0';
-        $js = sprintf(
-          'document.getElementsByName(\'%s\')[0].value = this.checked ? 1 : 0;',
-          $this->name,
-        );
-        $html .= sprintf(
-          '<input type="checkbox"%s onchange="%s"%s> ',
-          $checked,
-          $js,
-          $autofocus,
-        ) .
-          sprintf(
-            '<input type="hidden"%s value="%s">',
-            $name,
-            $value,
-          );
-        break;
-
-      default:
-        $html .= sprintf(
-          '<input type="%s"%s%s%s%s%s> ',
-          $this->type,
-          $name,
-          $placeholder,
-          $value,
-          $required,
-          $autofocus,
-        );
+class Input
+{
+    function __construct(
+        public string $type,
+        public ?string $name = null,
+        public ?string $value = null,
+        public ?string $placeholder = null,
+        public ?string $label = null,
+        public ?bool $checked = null,
+        public ?bool $required = null,
+        public bool $autofocus = false,
+    ) {
     }
-    if ($tabled) $html .= '</td></tr>';
-    else if (isset($this->label)) $html .= '</label> ';
-    return $html;
-  }
+
+    function getHtml(bool $tabled = false): string
+    {
+        $name = (isset($this->name)) ? sprintf(' name="%s"', $this->name) : null;
+        $placeholder = (isset($this->placeholder)) ? sprintf(' placeholder="%s"', $this->placeholder) : null;
+        $value = (isset($this->value)) ? sprintf(' value="%s"', $this->value) : null;
+        $required = ($this->required) ? ' required' : null;
+        $autofocus = ($this->autofocus) ? ' autofocus' : null;
+
+        $html = '';
+        if ($tabled) $html .= sprintf('<tr><th>%s</th><td>', $this->label);
+        elseif (isset($this->label)) $html .= sprintf('<label>%s ', $this->label);
+        switch ($this->type) {
+
+            case 'checkbox':
+                $checked = ($this->checked) ? ' checked' : null;
+                $value = ($this->checked) ? '1' : '0';
+                $js = sprintf(
+                    'document.getElementsByName(\'%s\')[0].value = this.checked ? 1 : 0;',
+                    $this->name,
+                );
+                $html .= sprintf(
+                    '<input type="checkbox"%s onchange="%s"%s> ',
+                    $checked,
+                    $js,
+                    $autofocus,
+                ) .
+                    sprintf(
+                        '<input type="hidden"%s value="%s">',
+                        $name,
+                        $value,
+                    );
+                break;
+
+            default:
+                $html .= sprintf(
+                    '<input type="%s"%s%s%s%s%s> ',
+                    $this->type,
+                    $name,
+                    $placeholder,
+                    $value,
+                    $required,
+                    $autofocus,
+                );
+        }
+        if ($tabled) $html .= '</td></tr>';
+        elseif (isset($this->label)) $html .= '</label> ';
+        return $html;
+    }
 }

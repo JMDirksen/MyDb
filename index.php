@@ -8,16 +8,16 @@ $pageFile = (valid($page) && is_file("./$page.php")) ? "./$page.php" : './home.p
 <html>
 
 <head>
-  <title>MyDb</title>
-  <link rel="stylesheet" href="style.css">
+    <title>MyDb</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <?php
-  require 'menu.php';
-  require 'breadcrums.php';
-  require $pageFile;
-  ?>
+    <?php
+    require 'menu.php';
+    require 'breadcrums.php';
+    require $pageFile;
+    ?>
 </body>
 
 </html>
