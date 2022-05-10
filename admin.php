@@ -24,18 +24,18 @@ $sth->execute();
 $tableList = $sth->fetchAll(PDO::FETCH_ASSOC);
 
 $form = new Form();
-$form->elements[] = $tableSelect = new Select('table');
+$form->element[] = $tableSelect = new Select('table');
 foreach ($tableList as $table)
-    $tableSelect->options[] = [
+    $tableSelect->option[] = [
         $table['name'],
         htmlspecialchars($table['display_name'])
     ];
 
 // Action dropdown
-$form->elements[] = $actionSelect = new Select('table-action', selected: 'edit');
-$actionSelect->options[] = ['delete', 'Delete'];
-$actionSelect->options[] = ['edit', 'Edit'];
-$actionSelect->options[] = ['export', 'Export'];
-$actionSelect->options[] = ['import', 'Import'];
-$form->elements[] = new Input('submit', value: 'Go');
+$form->element[] = $actionSelect = new Select('table-action', selected: 'edit');
+$actionSelect->option[] = ['delete', 'Delete'];
+$actionSelect->option[] = ['edit', 'Edit'];
+$actionSelect->option[] = ['export', 'Export'];
+$actionSelect->option[] = ['import', 'Import'];
+$form->element[] = new Input('submit', value: 'Go');
 echo $form->getHtml();

@@ -8,25 +8,25 @@ $sth = $dbh->prepare('SELECT `name`, `display_name` FROM `s_table` ORDER BY `dis
 $sth->execute();
 $tableList = $sth->fetchAll(PDO::FETCH_ASSOC);
 $form = new Form('GET');
-$form->elements[] = new Input('hidden', 'page', 'export');
-$form->elements[] = $s = new Select('table', $tableName, 'Table');
+$form->element[] = new Input('hidden', 'page', 'export');
+$form->element[] = $s = new Select('table', $tableName, 'Table');
 foreach ($tableList as $t) {
-    $s->options[] = [$t['name'], $t['display_name']];
+    $s->option[] = [$t['name'], $t['display_name']];
 }
-$form->elements[] = new Input('submit', value: 'Select');
+$form->element[] = new Input('submit', value: 'Select');
 echo $form->getHtml();
 
 // Columns selection
 $table = new Table($_GET['table']);
 $form = new Form('GET');
-$form->elements[] = new Input('hidden', 'page', 'export');
-$form->elements[] = new Input('hidden', 'table', $tableName);
-$form->elements[] = $s = new Select('columns[]', @$_GET['columns'], 'Select columns', true);
+$form->element[] = new Input('hidden', 'page', 'export');
+$form->element[] = new Input('hidden', 'table', $tableName);
+$form->element[] = $s = new Select('columns[]', @$_GET['columns'], 'Select columns', true);
 foreach ($table->columns as $column) {
-    $s->options[] = [$column->name, $column->display_name];
+    $s->option[] = [$column->name, $column->display_name];
 }
-$form->elements[] = new Input('hidden', 'getlink', 1);
-$form->elements[] = new Input('submit', value: 'Get export link');
+$form->element[] = new Input('hidden', 'getlink', 1);
+$form->element[] = new Input('submit', value: 'Get export link');
 echo $form->getHtml();
 
 // Generate export link

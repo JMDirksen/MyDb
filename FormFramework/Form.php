@@ -1,7 +1,7 @@
 <?php
 class Form
 {
-    public array $elements;
+    public array $element;
 
     function __construct(
         public string $method = 'POST',
