@@ -7,28 +7,28 @@ if (isset($_GET['add_column_type'])) {
     $form = new Form();
     switch ($type) {
         case 'text':
-            $form->element[] = new Input('text', 'name', label: 'Name', placeholder: 'columnname', autofocus: true);
-            $form->element[] = new Input('text', 'display_name', label: 'Display name', placeholder: 'Column name');
-            $form->element[] = new Input('text', 'default', label: 'Default value', placeholder: 'Default value');
-            $form->element[] = new Input('checkbox', 'required', label: 'Required');
+            $form->elements[] = new Input('text', 'name', label: 'Name', placeholder: 'columnname', autofocus: true);
+            $form->elements[] = new Input('text', 'display_name', label: 'Display name', placeholder: 'Column name');
+            $form->elements[] = new Input('text', 'default', label: 'Default value', placeholder: 'Default value');
+            $form->elements[] = new Input('checkbox', 'required', label: 'Required');
             break;
     }
-    $form->element[] = new Input('submit', value: 'Add');
+    $form->elements[] = new Input('submit', value: 'Add');
     echo $form->getHtml(true);
 } else {
 
     // Add type
     $form = new Form('GET');
-    $form->element[] = new Input('hidden', 'page', 'edit_table');
-    $form->element[] = new Input('hidden', 'table', $_GET['table']);
-    $form->element[] = $s = new Select('add_column_type', label: 'Add column of type', selected: 'text');
-    $s->option[] = ['checkbox', 'checkbox', 'A checkbox'];
-    $s->option[] = ['date', 'date', 'A date'];
-    $s->option[] = ['datetime', 'datetime', 'A date and time'];
-    $s->option[] = ['number', 'number', 'A whole number'];
-    $s->option[] = ['text', 'text', 'A string of maximum 255 characters'];
-    $s->option[] = ['time', 'time', 'A time'];
-    $form->element[] = new Input('submit', value: 'Go');
+    $form->elements[] = new Input('hidden', 'page', 'edit_table');
+    $form->elements[] = new Input('hidden', 'table', $_GET['table']);
+    $form->elements[] = $s = new Select('add_column_type', label: 'Add column of type', selected: 'text');
+    $s->options[] = ['checkbox', 'checkbox', 'A checkbox'];
+    $s->options[] = ['date', 'date', 'A date'];
+    $s->options[] = ['datetime', 'datetime', 'A date and time'];
+    $s->options[] = ['number', 'number', 'A whole number'];
+    $s->options[] = ['text', 'text', 'A string of maximum 255 characters'];
+    $s->options[] = ['time', 'time', 'A time'];
+    $form->elements[] = new Input('submit', value: 'Go');
     echo $form->getHtml();
 }
 

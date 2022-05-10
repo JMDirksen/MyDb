@@ -2,7 +2,7 @@
 
 class Select
 {
-    public array $option = [];
+    public array $options;
 
     function __construct(
         public ?string $name,

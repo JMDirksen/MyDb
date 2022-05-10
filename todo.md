@@ -41,5 +41,6 @@
 - [x] CSV Export
 - [ ] CSV Import
 - [ ] Add type image
+- [ ] Tables to fieldset/label
 - [ ] Make beautiful (CSS style)
 - [x] No POST page (always redirect after POST), use GET instead
