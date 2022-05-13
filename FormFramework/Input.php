@@ -1,4 +1,7 @@
 <?php
+
+namespace FormFramework;
+
 class Input
 {
     function __construct(

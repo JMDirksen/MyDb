@@ -1,4 +1,7 @@
 <?php
+
+namespace MyDb;
+
 loginRequired();
 
 if (!valid($tableName = @$_GET['table'])) die('Invalid table name');

@@ -1,4 +1,7 @@
 <?php
+
+namespace MyDb;
+
 loginRequired();
 
 // Add record

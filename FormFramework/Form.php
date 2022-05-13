@@ -1,4 +1,7 @@
 <?php
+
+namespace FormFramework;
+
 class Form
 {
     public array $elements;

@@ -1,4 +1,7 @@
 <?php
+
+namespace MyDb;
+
 loginRequired();
 
 // Edit record

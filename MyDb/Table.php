@@ -1,4 +1,9 @@
 <?php
+
+namespace MyDb;
+
+use \PDO;
+
 class Table
 {
     public string $display_name;

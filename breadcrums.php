@@ -1,4 +1,7 @@
 <?php
+
+namespace MyDb;
+
 $_SESSION['breadcrums'] = ['home' => '/'];
 if ($page) $_SESSION['breadcrums'][$page] = $_SERVER['REQUEST_URI'];
 foreach ($_SESSION['breadcrums'] as $crum => $url) {

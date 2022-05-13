@@ -1,4 +1,9 @@
 <?php
+
+namespace MyDb;
+
+use \PDO;
+
 class Record
 {
     public array $columns;

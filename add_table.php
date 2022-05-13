@@ -1,4 +1,7 @@
 <?php
+
+namespace MyDb;
+
 loginRequired('admin');
 
 // Action

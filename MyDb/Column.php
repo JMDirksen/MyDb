@@ -1,4 +1,9 @@
 <?php
+
+namespace MyDb;
+
+use \PDO;
+
 class Column
 {
     public string $table;
@@ -19,7 +24,9 @@ class Column
     {
         global $dbh;
 
-        $sth = $dbh->prepare('SELECT `table`, `name`, `display_name`, `type` FROM `s_column` WHERE `table` = ? AND `name` = ?');
+        $sth = $dbh->prepare(
+            'SELECT `table`, `name`, `display_name`, `type` FROM `s_column` WHERE `table` = ? AND `name` = ?'
+        );
         $sth->execute([$this->table, $this->name]);
         $column = $sth->fetch(PDO::FETCH_ASSOC);
         $this->table = $column['table'];

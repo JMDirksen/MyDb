@@ -1,5 +1,7 @@
 <?php
 
+namespace MyDb;
+
 require 'init.php';
 loginRequired();
 

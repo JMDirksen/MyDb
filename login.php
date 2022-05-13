@@ -1,4 +1,7 @@
 <?php
+
+namespace MyDb;
+
 if (isLoggedIn()) redirect('/');
 
 // Login

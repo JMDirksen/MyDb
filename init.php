@@ -1,13 +1,17 @@
 <?php
 
+namespace MyDb;
+
+use \PDO, \PDOException;
+
 session_start();
 require 'config.php';
 require 'functions.php';
 
 // Auto load classes
+spl_autoload_extensions('.php');
 spl_autoload_register(function ($class) {
-    if (is_readable($filename = 'class.' . strtolower($class) . '.php')) require_once $filename;
-    elseif (is_readable($filename = "FormFramework/$class.php")) require_once $filename;
+    include str_replace('\\', '/', $class) . '.php';
 });
 
 ini_set('allow_url_fopen', 0);

@@ -1,5 +1,7 @@
 <?php
 
+namespace MyDb;
+
 function redirect($url = null)
 {
     if (!$url) $url = $_SERVER['REQUEST_URI'];

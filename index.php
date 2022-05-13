@@ -1,4 +1,7 @@
 <?php
+
+namespace MyDb;
+
 require 'init.php';
 
 $page = @$_GET['page'] ?? '';

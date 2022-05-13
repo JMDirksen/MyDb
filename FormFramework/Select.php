@@ -1,5 +1,7 @@
 <?php
 
+namespace FormFramework;
+
 class Select
 {
     public array $options;

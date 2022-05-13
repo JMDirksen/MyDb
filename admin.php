@@ -1,4 +1,10 @@
 <?php
+
+namespace MyDb;
+
+use \PDO;
+use FormFramework as FF;
+
 loginRequired('admin');
 
 // Table Action
@@ -19,12 +25,14 @@ echo '<h1>admin</h1>';
 echo '<p><a href="?page=add_table">Add table</a><br /></p>';
 
 // Table dropdown
-$sth = $dbh->prepare('SELECT `name`, `display_name` FROM `s_table` ORDER BY `display_name`');
+$sth = $dbh->prepare(
+    'SELECT `name`, `display_name` FROM `s_table` ORDER BY `display_name`'
+);
 $sth->execute();
 $tableList = $sth->fetchAll(PDO::FETCH_ASSOC);
 
-$form = new Form();
-$form->elements[] = $tableSelect = new Select('table');
+$form = new FF\Form();
+$form->elements[] = $tableSelect = new FF\Select('table');
 foreach ($tableList as $table)
     $tableSelect->options[] = [
         $table['name'],
@@ -32,10 +40,10 @@ foreach ($tableList as $table)
     ];
 
 // Action dropdown
-$form->elements[] = $actionSelect = new Select('table-action', selected: 'edit');
-$actionSelect->options[] = ['delete', 'Delete'];
-$actionSelect->options[] = ['edit', 'Edit'];
-$actionSelect->options[] = ['export', 'Export'];
-$actionSelect->options[] = ['import', 'Import'];
-$form->elements[] = new Input('submit', value: 'Go');
+$form->elements[] = $s = new FF\Select('table-action', selected: 'edit');
+$s->options[] = ['delete', 'Delete'];
+$s->options[] = ['edit', 'Edit'];
+$s->options[] = ['export', 'Export'];
+$s->options[] = ['import', 'Import'];
+$form->elements[] = new FF\Input('submit', value: 'Go');
 echo $form->getHtml();

@@ -1,4 +1,10 @@
 <?php
+
+namespace MyDb;
+
+use \PDO;
+use FormFramework as FF;
+
 loginRequired('admin');
 
 $tableName = $_GET['table'];
@@ -7,26 +13,26 @@ $tableName = $_GET['table'];
 $sth = $dbh->prepare('SELECT `name`, `display_name` FROM `s_table` ORDER BY `display_name`');
 $sth->execute();
 $tableList = $sth->fetchAll(PDO::FETCH_ASSOC);
-$form = new Form('GET');
-$form->elements[] = new Input('hidden', 'page', 'export');
-$form->elements[] = $s = new Select('table', $tableName, 'Table');
+$form = new FF\Form('GET');
+$form->elements[] = new FF\Input('hidden', 'page', 'export');
+$form->elements[] = $s = new FF\Select('table', $tableName, 'Table');
 foreach ($tableList as $t) {
     $s->options[] = [$t['name'], $t['display_name']];
 }
-$form->elements[] = new Input('submit', value: 'Select');
+$form->elements[] = new FF\Input('submit', value: 'Select');
 echo $form->getHtml();
 
 // Columns selection
 $table = new Table($_GET['table']);
-$form = new Form('GET');
-$form->elements[] = new Input('hidden', 'page', 'export');
-$form->elements[] = new Input('hidden', 'table', $tableName);
-$form->elements[] = $s = new Select('columns[]', @$_GET['columns'], 'Select columns', true);
+$form = new FF\Form('GET');
+$form->elements[] = new FF\Input('hidden', 'page', 'export');
+$form->elements[] = new FF\Input('hidden', 'table', $tableName);
+$form->elements[] = $s = new FF\Select('columns[]', @$_GET['columns'], 'Select columns', true);
 foreach ($table->columns as $column) {
     $s->options[] = [$column->name, $column->display_name];
 }
-$form->elements[] = new Input('hidden', 'getlink', 1);
-$form->elements[] = new Input('submit', value: 'Get export link');
+$form->elements[] = new FF\Input('hidden', 'getlink', 1);
+$form->elements[] = new FF\Input('submit', value: 'Get export link');
 echo $form->getHtml();
 
 // Generate export link

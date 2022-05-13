@@ -1,4 +1,9 @@
 <?php
+
+namespace MyDb;
+
+use \PDO;
+
 loginRequired();
 
 $sth = $dbh->prepare('SELECT * FROM `s_table` WHERE NOT `hidden`');

@@ -1,4 +1,7 @@
 <?php
+
+namespace MyDb;
+
 echo '<div class="menu">';
 echo '<a href="/">Home</a> ';
 if (isLoggedIn()) {
