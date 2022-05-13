@@ -6,17 +6,15 @@ use \PDO;
 
 class Column
 {
-    public string $table;
-    public string $name;
-    public string $display_name;
-    public string $type;
 
-    function __construct(Table $table, string $name, bool $new = false)
-    {
-        $this->table = $table->name;
-        $this->name = $name;
-        $this->display_name = ucfirst($name);
-
+    function __construct(
+        public string $table,
+        public string $name,
+        bool $new = false,
+        public string $type = '',
+        public string $display_name = '',
+    ) {
+        if (!isset($this->display_name)) $this->display_name = ucfirst($name);
         if (!$new) $this->load();
     }
 
@@ -42,6 +40,20 @@ class Column
                 return 'datetime-local';
             default:
                 return $this->type;
+        }
+    }
+
+    function getSqlType(): string
+    {
+        switch ($this->type) {
+            case 'text':
+                return 'VARCHAR(255)';
+            case 'number':
+                return 'INT';
+            case 'checkbox':
+                return 'BOOLEAN';
+            default:
+                return strtoupper($this->type);
         }
     }
 }

@@ -6,45 +6,68 @@ use FormFramework as FF;
 
 loginRequired('admin');
 
-// Add column form
+// Action: Add column
+if (isset($_POST['name'])) {
+    $tableName = $_POST['table'];
+    $table = new Table($tableName);
+    $column = new Column(
+        table: $tableName,
+        name: $_POST['name'],
+        new: true,
+        type: $_POST['type'],
+        display_name: $_POST['display_name'],
+    );
+    $table->addColumn($column);
+    redirect('?page=edit_table&table=' . $tableName);
+}
+
+// Form: Add column
 if (isset($_GET['add_column_type'])) {
+    $tableName = $_GET['table'];
     $type = $_GET['add_column_type'];
     $form = new FF\Form();
+    $e = [];
     switch ($type) {
         case 'text':
-            $form->elements[] = new FF\Input('text', 'name', label: 'Name', placeholder: 'columnname', autofocus: true);
-            $form->elements[] = new FF\Input('text', 'display_name', label: 'Display name', placeholder: 'Column name');
-            $form->elements[] = new FF\Input('text', 'default', label: 'Default value', placeholder: 'Default value');
-            $form->elements[] = new FF\Input('checkbox', 'required', label: 'Required');
+            $e[] = new FF\Input('hidden', 'table', $tableName);
+            $e[] = new FF\Input('hidden', 'type', $type);
+            $e[] = new FF\Input('text', 'name', null, 'columname', 'Name', autofocus: true);
+            $e[] = new FF\Input('text', 'display_name', null, 'Column name', 'Display name');
+            $e[] = new FF\Input('text', 'default', null, 'Default value', 'Default value');
+            $e[] = new FF\Input('checkbox', 'required', label: 'Required');
             break;
     }
-    $form->elements[] = new FF\Input('submit', value: 'Add');
+    $e[] = new FF\Input('submit', value: 'Add');
+    $form->elements = $e;
     echo $form->getHtml(true);
 } else {
 
-    // Add type
+    // Form: Add type
     $form = new FF\Form('GET');
-    $form->elements[] = new FF\Input('hidden', 'page', 'edit_table');
-    $form->elements[] = new FF\Input('hidden', 'table', $_GET['table']);
-    $form->elements[] = $s = new FF\Select('add_column_type', label: 'Add column of type', selected: 'text');
+    $e = [];
+    $e[] = new FF\Input('hidden', 'page', 'edit_table');
+    $e[] = new FF\Input('hidden', 'table', $_GET['table']);
+    $e[] = $s = new FF\Select('add_column_type', 'text', 'Add column of type');
     $s->options[] = ['checkbox', 'checkbox', 'A checkbox'];
     $s->options[] = ['date', 'date', 'A date'];
     $s->options[] = ['datetime', 'datetime', 'A date and time'];
     $s->options[] = ['number', 'number', 'A whole number'];
     $s->options[] = ['text', 'text', 'A string of maximum 255 characters'];
     $s->options[] = ['time', 'time', 'A time'];
-    $form->elements[] = new FF\Input('submit', value: 'Go');
+    $e[] = new FF\Input('submit', value: 'Go');
+    $form->elements = $e;
     echo $form->getHtml();
 }
 
-// Columns list
+// Table: Columns listing
 $table = new Table($_GET['table']);
 $columnList = '';
 foreach ($table->columns as $column)
     $columnList .= sprintf(
-        '<tr><td>%s</td><td>%s</td></tr>',
+        '<tr><td>%s</td><td>%s</td><td>%s</td></tr>',
         $column->name,
         htmlspecialchars($column->display_name),
+        $column->type,
     );
 ?>
 <table>
@@ -52,6 +75,7 @@ foreach ($table->columns as $column)
         <tr>
             <th>Name</th>
             <th>Display name</th>
+            <th>Type</th>
         </tr>
     </thead>
     <tbody>

@@ -2,6 +2,8 @@
 
 namespace MyDb;
 
+use \PDO;
+
 if (isLoggedIn()) redirect('/');
 
 // Login

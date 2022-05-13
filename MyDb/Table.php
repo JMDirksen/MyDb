@@ -35,7 +35,7 @@ class Table
         $sth->execute([$this->name]);
         $columns = $sth->fetchAll(PDO::FETCH_ASSOC);
         foreach ($columns as $column) {
-            $this->columns[$column['name']] = new Column($this, $column['name']);
+            $this->columns[$column['name']] = new Column($this->name, $column['name']);
         }
     }
 
@@ -74,6 +74,28 @@ class Table
         }
     }
 
+    function addColumn(Column $column): void
+    {
+        global $dbh;
+
+        // Save metadata column
+        $sth = $dbh->prepare(
+            'INSERT INTO `s_column` (`table`, `name`, `display_name`, `type`) VALUES (?, ?, ?, ?)'
+        );
+        $sth->execute([$column->table, $column->name, $column->display_name, $column->type]);
+
+        // Save column
+        $sth = $dbh->prepare(sprintf(
+            'ALTER TABLE `%s` ADD `%s` %s',
+            $this->name,
+            $column->name,
+            $column->getSqlType(),
+        ));
+        $sth->execute();
+
+        $this->columns[] = $column;
+    }
+
     function getRecord(int $id): Record
     {
         return new Record($this->name, $id);
@@ -96,19 +118,5 @@ class Table
     function getRecordset(): Recordset
     {
         return new Recordset($this->name);
-    }
-
-    function toSqlType(string $type): string
-    {
-        switch ($type) {
-            case 'text':
-                return 'VARCHAR(255)';
-            case 'number':
-                return 'INT';
-            case 'checkbox':
-                return 'BOOLEAN';
-            default:
-                return strtoupper($type);
-        }
     }
 }
