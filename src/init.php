@@ -4,6 +4,7 @@ namespace MyDb;
 
 use \PDO, \PDOException;
 
+ob_start();
 session_start();
 require 'config.php';
 require 'functions.php';
