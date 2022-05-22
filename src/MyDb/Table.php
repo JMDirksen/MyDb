@@ -65,7 +65,7 @@ class Table
             // Save table
             foreach ($this->columns as $column) {
                 $name = $column->name;
-                $sqlType = $this->toSqlType($column->type);
+                $sqlType = $column->getSqlType();
                 $columnstring[] = "`$name` $sqlType";
             }
             $columnstring = (isset($columnstring)) ? ', ' . join(', ', $columnstring) : '';

@@ -4,7 +4,7 @@ namespace FormFramework;
 
 class Select
 {
-    public array $options;
+    public array $options = [];
 
     function __construct(
         public ?string $name,
