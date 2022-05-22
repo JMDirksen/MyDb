@@ -31,6 +31,7 @@
 - [x] Add type date time
 - [x] Add type time
 - [x] Add type checkbox
+- [ ] Database initialize/backup/restore functions (don't use ./db volume)
 - [ ] Add default values
 - [ ] Required columns
 - [ ] Class Table update method (existing table)
