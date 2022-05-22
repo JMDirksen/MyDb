@@ -28,3 +28,8 @@ try {
 } catch (PDOException $e) {
     echo 'Connection failed: ' . $e->getMessage();
 }
+
+// Check database
+if (!count($dbh->query('SHOW TABLES')->fetchAll())) {
+    $dbh->exec(file_get_contents('init.sql'));
+}
