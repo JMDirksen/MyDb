@@ -24,6 +24,7 @@ services:
       - db
     volumes:
       - ./src/:/var/www/html
+      - ./backups:/backups
     ports:
       - 80:80
 
