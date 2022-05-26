@@ -7,14 +7,13 @@ services:
     networks:
       - backend
     environment:
-      MARIADB_RANDOM_ROOT_PASSWORD: yes
+      MARIADB_RANDOM_ROOT_PASSWORD: 'yes'
       MARIADB_DATABASE: mydb
       MARIADB_USER: mydb
       MARIADB_PASSWORD: mydb
 
   web:
-    build: .
-    image: mydb
+    image: jmdirksen/mydb
     container_name: mydb
     restart: always
     networks:
