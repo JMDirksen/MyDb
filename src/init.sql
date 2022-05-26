@@ -3,11 +3,13 @@
 SET NAMES utf8;
 SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
-SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 SET NAMES utf8mb4;
 
-DROP TABLE IF EXISTS `s_column`;
+DROP DATABASE IF EXISTS `mydb`;
+CREATE DATABASE `mydb` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+USE `mydb`;
+
 CREATE TABLE `s_column` (
   `table` varchar(25) NOT NULL,
   `name` varchar(25) NOT NULL,
@@ -18,7 +20,6 @@ CREATE TABLE `s_column` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-DROP TABLE IF EXISTS `s_table`;
 CREATE TABLE `s_table` (
   `name` varchar(25) NOT NULL,
   `display_name` varchar(25) NOT NULL,
@@ -27,7 +28,6 @@ CREATE TABLE `s_table` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-DROP TABLE IF EXISTS `s_user`;
 CREATE TABLE `s_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(25) NOT NULL,
@@ -36,7 +36,5 @@ CREATE TABLE `s_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `s_user` (`id`, `username`, `password`, `type`) VALUES
-(1,	'admin',	'$2y$10$zYcvggp5d9OS/nwDM/dwxuhjx6VvjR6kQftxSFsTju.eEFjpUGrq.',	'admin');
 
--- 2022-05-22 09:41:30
+-- 2022-05-26 08:47:44

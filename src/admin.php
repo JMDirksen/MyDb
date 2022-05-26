@@ -23,8 +23,19 @@ if (isset($_POST['table-action'])) {
 
 // Action Backup
 if (isset($_GET['action']) && $_GET['action'] == 'backup') {
-    $file = '/backups/mydb-' . date('Y-m-d-H-i-s') . '.gz';
-    $cmd = 'mariadb-dump --opt -h mydb-mariadb -u mydb -pmydb mydb | gzip > ' . $file;
+    $fileName = sprintf(
+        '/backups/%s-%s.gz',
+        DB_NAME,
+        date('Y-m-d-H-i-s'),
+    );
+    $cmd = sprintf(
+        'mariadb-dump --opt -h %s -u %s -p%s %s | gzip > %s',
+        DB_HOST,
+        DB_USER,
+        DB_PASS,
+        DB_NAME,
+        $fileName,
+    );
     if (system($cmd) === false) die('error: ' . $cmd);
     die('done');
 }
