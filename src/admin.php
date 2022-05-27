@@ -21,28 +21,9 @@ if (isset($_POST['table-action'])) {
     }
 }
 
-// Action Backup
-if (isset($_GET['action']) && $_GET['action'] == 'backup') {
-    $fileName = sprintf(
-        '/backups/%s-%s.gz',
-        DB_NAME,
-        date('Y-m-d-H-i-s'),
-    );
-    $cmd = sprintf(
-        'mariadb-dump --opt -h %s -u %s -p%s %s | gzip > %s',
-        DB_HOST,
-        DB_USER,
-        DB_PASS,
-        DB_NAME,
-        $fileName,
-    );
-    if (system($cmd) === false) die('error: ' . $cmd);
-    die('done');
-}
-
 echo '<h1>admin</h1>';
 echo '<p><a href="?page=add_table">Add table</a><br /></p>';
-echo '<p><a href="?page=admin&action=backup">Backup</a><br /></p>';
+echo '<p><a href="backup.php" target="_blank">Backup</a><br /></p>';
 
 // Table dropdown
 $sth = $dbh->prepare(
