@@ -1,5 +1,12 @@
 # MyDb
 
-## Requirements
+## Development commands
+```
+docker build -t jmdirksen/mydb .
 
-    - docker (with compose)
+docker push jmdirksen/mydb
+
+docker compose up -d
+
+docker compose down
+```
