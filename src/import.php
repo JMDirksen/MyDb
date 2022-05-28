@@ -18,6 +18,10 @@ if (isset($_FILES['import'])) {
             $columns = $data;
             dump($columns);
         } else {
+
+            // Convert empty to null
+            $data = array_map(fn ($v) => (strlen($v) == 0) ? null : $v, $data);
+
             $updateString = '';
             foreach ($columns as $c) {
                 if ($c == 'id') continue;
