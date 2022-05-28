@@ -13,6 +13,8 @@ class Input
         public ?bool $checked = null,
         public ?bool $required = null,
         public bool $autofocus = false,
+        public ?string $accept = null,
+        public ?string $other = null,
     ) {
     }
 
@@ -23,6 +25,8 @@ class Input
         $value = (isset($this->value)) ? sprintf(' value="%s"', $this->value) : null;
         $required = ($this->required) ? ' required' : null;
         $autofocus = ($this->autofocus) ? ' autofocus' : null;
+        $accept = ($this->accept) ? sprintf(' accept=%s', $this->accept) : null;
+        $other = ($this->other) ? sprintf(' %s', $this->other) : null;
 
         $html = '';
         if ($tabled) $html .= sprintf('<tr><th>%s</th><td>', $this->label);
@@ -37,10 +41,11 @@ class Input
                     $this->name,
                 );
                 $html .= sprintf(
-                    '<input type="checkbox"%s onchange="%s"%s> ',
+                    '<input type="checkbox"%s onchange="%s"%s%s> ',
                     $checked,
                     $js,
                     $autofocus,
+                    $other,
                 ) .
                     sprintf(
                         '<input type="hidden"%s value="%s">',
@@ -51,13 +56,15 @@ class Input
 
             default:
                 $html .= sprintf(
-                    '<input type="%s"%s%s%s%s%s> ',
+                    '<input type="%s"%s%s%s%s%s%s%s> ',
                     $this->type,
                     $name,
                     $placeholder,
                     $value,
                     $required,
                     $autofocus,
+                    $accept,
+                    $other,
                 );
         }
         if ($tabled) $html .= '</td></tr>';
