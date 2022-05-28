@@ -40,7 +40,7 @@
 - [ ] User permissions (type)
 - [ ] Breadcrums
 - [x] CSV Export
-- [ ] CSV Import
+- [x] CSV Import
 - [ ] Add type image
 - [ ] Tables to fieldset/label
 - [ ] Make beautiful (CSS style)

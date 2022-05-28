@@ -28,7 +28,7 @@ if (isset($_GET['add_column_type'])) {
     $form = new FF\Form();
     $e = [];
     switch ($type) {
-        case 'text':
+        default:
             $e[] = new FF\Input('hidden', 'table', $tableName);
             $e[] = new FF\Input('hidden', 'type', $type);
             $e[] = new FF\Input('text', 'name', null, 'columname', 'Name', autofocus: true);

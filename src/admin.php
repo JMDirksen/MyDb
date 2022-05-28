@@ -16,6 +16,9 @@ if (isset($_POST['table-action'])) {
         case 'edit':
             redirect(sprintf('?page=edit_table&table=%s', $_POST['table']));
             break;
+        case 'import':
+            redirect(sprintf('?page=import&table=%s', $_POST['table']));
+            break;
         default:
             redirect();
     }
@@ -68,17 +71,16 @@ echo '<h2>Database</h2>';
 echo '<p><a href="backup.php">Backup</a></p>';
 
 // Restore
-$form = new FF\Form(other: 'enctype="multipart/form-data"');
-$js = 'onchange="form.submit()"';
+$form = new FF\Form(enctype: 'multipart/form-data');
 $msg = 'Overwrite current database?\\n' .
     'This will remove everything, make sure you have a backup!';
-$js2 = sprintf('onClick="return confirm(\'%s\')"', $msg);
 $form->elements[] = new FF\Input(
     'file',
     'restore',
     label: 'Restore',
     accept: '.gz',
-    other: $js . ' ' . $js2,
+    onclick: sprintf('return confirm(\'%s\')', $msg),
+    onchange: 'form.submit()',
 );
 echo $form->getHtml();
 
