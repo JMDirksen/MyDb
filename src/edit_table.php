@@ -16,6 +16,7 @@ if (isset($_POST['name'])) {
         new: true,
         type: $_POST['type'],
         display_name: $_POST['display_name'],
+        default: $_POST['default'],
     );
     $table->addColumn($column);
     redirect('?page=edit_table&table=' . $tableName);

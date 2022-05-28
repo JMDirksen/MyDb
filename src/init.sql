@@ -15,6 +15,8 @@ CREATE TABLE `s_column` (
   `name` varchar(25) NOT NULL,
   `display_name` varchar(25) NOT NULL,
   `type` varchar(10) NOT NULL,
+  `default` varchar(10) DEFAULT NULL,
+  `order` int(11) DEFAULT NULL,
   PRIMARY KEY (`table`,`name`),
   CONSTRAINT `fk_table` FOREIGN KEY (`table`) REFERENCES `s_table` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -37,4 +39,4 @@ CREATE TABLE `s_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
--- 2022-05-26 08:47:44
+-- 2022-05-28 14:51:48
