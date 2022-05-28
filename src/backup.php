@@ -12,7 +12,7 @@ $fileName = sprintf(
 );
 
 $cmd = sprintf(
-    'mariadb-dump --opt -h %s -u %s -p%s %s | gzip',
+    'mariadb-dump --opt -h %s -u %s -p%s --add-drop-database -B %s | gzip',
     DB_HOST,
     DB_USER,
     DB_PASS,
@@ -20,6 +20,6 @@ $cmd = sprintf(
 );
 
 header('Content-Type: application/gzip');
-header(sprintf('Content-Disposition: attachment; filename=%s', $fileName));
+header('Content-Disposition: attachment; filename=' . $fileName);
 
 passthru($cmd);

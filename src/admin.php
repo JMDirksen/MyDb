@@ -21,9 +21,22 @@ if (isset($_POST['table-action'])) {
     }
 }
 
-echo '<h1>admin</h1>';
+// Restore
+if (isset($_FILES['restore'])) {
+    $sql = gzdecode(file_get_contents($_FILES['restore']['tmp_name']));
+    $dbh->exec($sql);
+    redirect('?page=logout');
+}
+
+// Reset
+if (isset($_GET['action']) && $_GET['action'] == 'reset') {
+    $dbh->exec(sprintf('DROP DATABASE `%s`; CREATE DATABASE `%1$s`', DB_NAME));
+    redirect('?page=logout');
+}
+
+echo '<h1>Admin</h1>';
+echo '<h2>Tables</h2>';
 echo '<p><a href="?page=add_table">Add table</a><br /></p>';
-echo '<p><a href="backup.php" target="_blank">Backup</a><br /></p>';
 
 // Table dropdown
 $sth = $dbh->prepare(
@@ -48,3 +61,29 @@ $s->options[] = ['export', 'Export'];
 $s->options[] = ['import', 'Import'];
 $form->elements[] = new FF\Input('submit', value: 'Go');
 echo $form->getHtml();
+
+echo '<h2>Database</h2>';
+
+// Backup
+echo '<p><a href="backup.php">Backup</a></p>';
+
+// Restore
+$form = new FF\Form(other: 'enctype="multipart/form-data"');
+$js = 'onchange="form.submit()"';
+$msg = 'Overwrite current database?\\n' .
+    'This will remove everything, make sure you have a backup!';
+$js2 = sprintf('onClick="return confirm(\'%s\')"', $msg);
+$form->elements[] = new FF\Input(
+    'file',
+    'restore',
+    label: 'Restore',
+    accept: '.gz',
+    other: $js . ' ' . $js2,
+);
+echo $form->getHtml();
+
+// Reset
+$msg = 'Reset whole database?\\n' .
+    'This will remove everything, make sure you have a backup!';
+$js = sprintf('onClick="return confirm(\'%s\')"', $msg);
+echo sprintf('<p><a href="?page=admin&action=reset" %s>Reset</a></p>', $js);
