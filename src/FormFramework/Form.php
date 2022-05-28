@@ -9,7 +9,7 @@ class Form
     function __construct(
         public string $method = 'POST',
         public ?string $action = null,
-        public ?string $other = null,
+        public string $enctype = 'application/x-www-form-urlencoded',
     ) {
     }
 
@@ -19,10 +19,10 @@ class Form
         $other = (isset($this->other)) ? sprintf(' %s', $this->other) : null;
 
         $html = sprintf(
-            '<form method="%s"%s%s>',
+            '<form method="%s" enctype="%s"%s>',
             $this->method,
+            $this->enctype,
             $action,
-            $other,
         );
         if ($tabled) $html .= '<table>';
         foreach ($this->elements as $element) {

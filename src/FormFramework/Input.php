@@ -14,7 +14,8 @@ class Input
         public ?bool $required = null,
         public bool $autofocus = false,
         public ?string $accept = null,
-        public ?string $other = null,
+        public ?string $onclick = null,
+        public ?string $onchange = null,
     ) {
     }
 
@@ -25,8 +26,9 @@ class Input
         $value = (isset($this->value)) ? sprintf(' value="%s"', $this->value) : null;
         $required = ($this->required) ? ' required' : null;
         $autofocus = ($this->autofocus) ? ' autofocus' : null;
-        $accept = ($this->accept) ? sprintf(' accept=%s', $this->accept) : null;
-        $other = ($this->other) ? sprintf(' %s', $this->other) : null;
+        $accept = ($this->accept) ? sprintf(' accept="%s"', $this->accept) : null;
+        $onclick = ($this->onclick) ? sprintf(' onclick="%s"', $this->onclick) : null;
+        $onchange = ($this->onchange) ? sprintf(' onchange="%s"', $this->onchange) : null;
 
         $html = '';
         if ($tabled) $html .= sprintf('<tr><th>%s</th><td>', $this->label);
@@ -41,11 +43,12 @@ class Input
                     $this->name,
                 );
                 $html .= sprintf(
-                    '<input type="checkbox"%s onchange="%s"%s%s> ',
+                    '<input type="checkbox"%s onchange="%s %s"%s%s> ',
                     $checked,
                     $js,
+                    $this->onchange,
                     $autofocus,
-                    $other,
+                    $onclick,
                 ) .
                     sprintf(
                         '<input type="hidden"%s value="%s">',
@@ -56,7 +59,7 @@ class Input
 
             default:
                 $html .= sprintf(
-                    '<input type="%s"%s%s%s%s%s%s%s> ',
+                    '<input type="%s"%s%s%s%s%s%s%s%s> ',
                     $this->type,
                     $name,
                     $placeholder,
@@ -64,7 +67,8 @@ class Input
                     $required,
                     $autofocus,
                     $accept,
-                    $other,
+                    $onclick,
+                    $onchange,
                 );
         }
         if ($tabled) $html .= '</td></tr>';
