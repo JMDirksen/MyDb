@@ -5,7 +5,7 @@ namespace MyDb;
 use \PDO;
 use FormFramework as FF;
 
-loginRequired('admin');
+User::checkLogin('admin');
 
 $tableName = $_GET['table'];
 

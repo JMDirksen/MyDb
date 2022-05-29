@@ -3,7 +3,7 @@
 namespace MyDb;
 
 require 'init.php';
-loginRequired('admin');
+User::checkLogin('admin');
 
 $fileName = sprintf(
     '%s-%s.sql.gz',

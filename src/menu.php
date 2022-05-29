@@ -4,9 +4,9 @@ namespace MyDb;
 
 echo '<div class="menu">';
 echo '<a href="/">Home</a> ';
-if (isLoggedIn()) {
+if (User::isLoggedIn()) {
     echo '<a href="/?page=options">Options</a> ';
-    if (isLoggedIn()['type'] == 'admin') {
+    if (User::isLoggedIn()->type == 'admin') {
         echo '<a href="?page=admin">Admin</a> ';
     }
     echo '<a href="/?page=logout">Logout</a> ';

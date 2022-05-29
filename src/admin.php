@@ -5,7 +5,7 @@ namespace MyDb;
 use \PDO;
 use FormFramework as FF;
 
-loginRequired('admin');
+User::checkLogin('admin');
 
 // Table Action
 if (isset($_POST['table-action'])) {
@@ -28,13 +28,15 @@ if (isset($_POST['table-action'])) {
 if (isset($_FILES['restore'])) {
     $sql = gzdecode(file_get_contents($_FILES['restore']['tmp_name']));
     $dbh->exec($sql);
-    redirect('?page=logout');
+    User::logout();
+    redirect('/?page=login');
 }
 
 // Reset
 if (isset($_GET['action']) && $_GET['action'] == 'reset') {
     $dbh->exec(sprintf('DROP DATABASE `%s`; CREATE DATABASE `%1$s`', DB_NAME));
-    redirect('?page=logout');
+    User::logout();
+    redirect('/?page=login');
 }
 
 echo '<h1>Admin</h1>';

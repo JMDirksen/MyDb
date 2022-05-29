@@ -4,7 +4,7 @@ namespace MyDb;
 
 use FormFramework as FF;
 
-loginRequired('admin');
+User::checkLogin('admin');
 
 // Action: Add column
 if (isset($_POST['name'])) {

@@ -3,7 +3,7 @@
 namespace MyDb;
 
 require 'init.php';
-loginRequired();
+User::checkLogin();
 
 // Start memory file
 $fp = fopen('php://temp', 'r+');

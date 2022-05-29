@@ -4,7 +4,7 @@ namespace MyDb;
 
 use \PDO;
 
-loginRequired();
+User::checkLogin();
 
 $sth = $dbh->prepare('SELECT * FROM `s_table` WHERE NOT `hidden`');
 $sth->execute();

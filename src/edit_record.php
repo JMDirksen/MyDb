@@ -2,7 +2,7 @@
 
 namespace MyDb;
 
-loginRequired();
+User::checkLogin();
 
 // Edit record
 if (isset($_POST['edit_record'])) {

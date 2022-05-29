@@ -2,7 +2,7 @@
 
 namespace MyDb;
 
-loginRequired();
+User::checkLogin();
 
 if (!valid($tableName = @$_GET['table'])) die('Invalid table name');
 

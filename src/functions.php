@@ -14,20 +14,6 @@ function dump($var)
     echo '<pre>' . print_r($var, true) . '</pre>';
 }
 
-function loginRequired($type = null)
-{
-    if (!$user = isLoggedIn()) redirect('/?page=login');
-    if (isset($type) && $type != $user['type']) redirect('/?page=login');
-}
-
-function isLoggedIn()
-{
-    if (isset($_SESSION['id']) && isset($_SESSION['type'])) {
-        return ['id' => $_SESSION['id'], 'type' => $_SESSION['type']];
-    }
-    return false;
-}
-
 function valid(string $value, int $type = 1)
 {
     switch ($type) {

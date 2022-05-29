@@ -2,6 +2,5 @@
 
 namespace MyDb;
 
-unset($_SESSION['id']);
-unset($_SESSION['type']);
+User::logout();
 redirect('/?page=login');

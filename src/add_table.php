@@ -2,7 +2,7 @@
 
 namespace MyDb;
 
-loginRequired('admin');
+User::checkLogin('admin');
 
 // Action
 if (isset($_POST['name'])) {

@@ -2,7 +2,7 @@
 
 namespace MyDb;
 
-loginRequired();
+User::checkLogin();
 
 // Add record
 if (isset($_POST['add_record'])) {
