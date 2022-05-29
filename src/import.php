@@ -16,7 +16,6 @@ if (isset($_FILES['import'])) {
     while (($data = fgetcsv($handle)) !== false) {
         if ($row == 1) {
             $columns = $data;
-            dump($columns);
         } else {
 
             // Convert empty to null
@@ -35,7 +34,6 @@ if (isset($_FILES['import'])) {
                 rtrim(str_repeat('?, ', count($columns)), ', '),
                 rtrim($updateString, ', '),
             );
-            echo $sql . '<br />';
             $sth = $dbh->prepare($sql);
             $sth->execute($data);
         }
