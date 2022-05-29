@@ -6,12 +6,17 @@ services:
     build: .
     volumes:
       - ./src/:/var/www/html
+    restart: 'no'
     environment:
       DEBUG: true
+
+  db:
+    restart: 'no'
 
   adminer:
     image: adminer
     container_name: mydb-adminer
+    restart: 'no'
     networks:
       - frontend
       - backend
