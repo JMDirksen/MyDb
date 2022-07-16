@@ -26,7 +26,7 @@ if (isset($_POST['table-action'])) {
 
 // Restore
 if (isset($_FILES['restore'])) {
-    $sql = gzdecode(file_get_contents($_FILES['restore']['tmp_name']));
+    $sql = file_get_contents($_FILES['restore']['tmp_name']);
     $dbh->exec($sql);
     User::logout();
     redirect('/?page=login');
@@ -80,7 +80,7 @@ $form->elements[] = new FF\Input(
     'file',
     'restore',
     label: 'Restore',
-    accept: '.gz',
+    accept: '.sql',
     onclick: sprintf('return confirm(\'%s\')', $msg),
     onchange: 'form.submit()',
 );
