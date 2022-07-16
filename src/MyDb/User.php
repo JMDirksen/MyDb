@@ -2,6 +2,7 @@
 
 namespace MyDb;
 
+use Exception;
 use \PDO;
 
 class User
@@ -16,6 +17,7 @@ class User
         $sth = $dbh->prepare('SELECT * FROM `s_user` WHERE `id` = ?');
         $sth->execute([$id]);
         $result = $sth->fetch(PDO::FETCH_ASSOC);
+        if (!$result) throw new Exception(sprintf('No such user %d', $id));
         $this->id = $result['id'];
         $this->username = $result['username'];
         $this->type = $result['type'];
