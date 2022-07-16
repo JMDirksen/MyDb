@@ -7,8 +7,6 @@ services:
     volumes:
       - ./src/:/var/www/html
     restart: 'no'
-    environment:
-      DEBUG: true
 
   db:
     restart: 'no'
