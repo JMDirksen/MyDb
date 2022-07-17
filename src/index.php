@@ -2,6 +2,8 @@
 
 namespace MyDb;
 
+$timerStart = microtime(true);
+
 require 'init.php';
 
 $page = @$_GET['page'] ?? '';
@@ -24,3 +26,4 @@ $pageFile = (valid($page) && is_file("./$page.php")) ? "./$page.php" : './home.p
 </body>
 
 </html>
+<?php echo sprintf('<!-- Load time: %g -->', round(microtime(true) - $timerStart, 3));
