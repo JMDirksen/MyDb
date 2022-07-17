@@ -114,9 +114,4 @@ class Table
         $record = new Record($this->name, $id);
         $record->delete();
     }
-
-    function getRecordset(): Recordset
-    {
-        return new Recordset($this->name);
-    }
 }

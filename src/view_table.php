@@ -22,7 +22,10 @@ foreach ($table->columns as $column) {
 }
 
 // Data
-$recordset = $table->getRecordset();
+$page = $_GET['p'] ?? 1;
+$pagesize = $_GET['s'] ?? 25;
+$recordset = new Recordset($table->name, page: $page, pagesize: $pagesize);
+$recordcount = $recordset->recordcount;
 $dataHtml = '';
 foreach ($recordset->records as $record) {
     $dataHtml .= '<tr><td>' .
@@ -49,6 +52,7 @@ foreach ($recordset->records as $record) {
 
 <h1><?php echo htmlspecialchars($display_name); ?></h1>
 <a href="?page=add_record&table=<?php echo $tableName; ?>">Add</a>
+<div><?php echo pageSelector($page, $pagesize, $recordcount); ?></div>
 <table>
     <tr>
         <th></th><?php echo $columnHtml; ?>
