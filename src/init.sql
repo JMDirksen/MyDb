@@ -15,8 +15,11 @@ CREATE TABLE IF NOT EXISTS `s_column` (
   `display_name` varchar(25) NOT NULL,
   `type` varchar(10) NOT NULL,
   `default` varchar(10) DEFAULT NULL,
+  `lookup_table` varchar(25) DEFAULT NULL,
   `order` int(11) DEFAULT NULL,
   PRIMARY KEY (`table`,`name`),
+  KEY `fk_lookup_table` (`lookup_table`),
+  CONSTRAINT `fk_lookup_table` FOREIGN KEY (`lookup_table`) REFERENCES `s_table` (`name`),
   CONSTRAINT `fk_table` FOREIGN KEY (`table`) REFERENCES `s_table` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

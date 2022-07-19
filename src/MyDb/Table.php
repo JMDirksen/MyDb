@@ -80,9 +80,15 @@ class Table
 
         // Save metadata column
         $sth = $dbh->prepare(
-            'INSERT INTO `s_column` (`table`, `name`, `display_name`, `type`) VALUES (?, ?, ?, ?)'
+            'INSERT INTO `s_column` (`table`, `name`, `display_name`, `type`, `lookup_table`) VALUES (?, ?, ?, ?, ?)'
         );
-        $sth->execute([$column->table, $column->name, $column->display_name, $column->type]);
+        $sth->execute([
+            $column->table,
+            $column->name,
+            $column->display_name,
+            $column->type,
+            $column->lookup_table,
+        ]);
 
         // Save column
         $sth = $dbh->prepare(sprintf(

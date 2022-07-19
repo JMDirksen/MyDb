@@ -14,6 +14,7 @@ class Column
         public string $type = '',
         public string $display_name = '',
         public ?string $default = null,
+        public ?string $lookup_table = null,
     ) {
         if (!isset($this->display_name)) $this->display_name = ucfirst($name);
         if (!$new) $this->load();
@@ -33,6 +34,7 @@ class Column
         $this->display_name = $column['display_name'];
         $this->type = $column['type'];
         $this->default = $column['default'];
+        $this->lookup_table = $column['lookup_table'];
     }
 
     function getHtmlType(): string
@@ -40,6 +42,8 @@ class Column
         switch ($this->type) {
             case 'datetime':
                 return 'datetime-local';
+            case 'lookup':
+                return 'number';
             default:
                 return $this->type;
         }
@@ -54,6 +58,8 @@ class Column
                 return 'INT';
             case 'checkbox':
                 return 'BOOLEAN';
+            case 'lookup':
+                return 'INT';
             default:
                 return strtoupper($this->type);
         }

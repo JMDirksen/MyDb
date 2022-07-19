@@ -16,7 +16,8 @@ if (isset($_POST['name'])) {
         new: true,
         type: $_POST['type'],
         display_name: $_POST['display_name'],
-        default: $_POST['default'],
+        default: $_POST['default'] ?? null,
+        lookup_table: $_POST['lookup_table'] ?? null,
     );
     $table->addColumn($column);
     redirect('?page=edit_table&table=' . $tableName);
@@ -28,12 +29,24 @@ if (isset($_GET['add_column_type'])) {
     $type = $_GET['add_column_type'];
     $form = new FF\Form();
     $e = [];
+    $e[] = new FF\Input('hidden', 'table', $tableName);
+    $e[] = new FF\Input('hidden', 'type', $type);
     switch ($type) {
+        case 'lookup':
+            $e[] = new FF\Input('text', 'name', null, 'columname', 'Name', autofocus: true, required: true);
+            $e[] = new FF\Input('text', 'display_name', null, 'Column name', 'Display name', required: true);
+            $e[] = new FF\Input('checkbox', 'required', label: 'Required');
+            $e[] = $s = new FF\Select('lookup_table', label: 'Lookup table');
+            $sth = $dbh->prepare('SELECT `name`, `display_name` FROM `s_table` WHERE NOT `hidden`');
+            $sth->execute();
+            $tables = $sth->fetchAll(\PDO::FETCH_ASSOC);
+            foreach ($tables as $table) {
+                $s->options[] = [$table['name'], htmlspecialchars($table['display_name'])];
+            }
+            break;
         default:
-            $e[] = new FF\Input('hidden', 'table', $tableName);
-            $e[] = new FF\Input('hidden', 'type', $type);
-            $e[] = new FF\Input('text', 'name', null, 'columname', 'Name', autofocus: true);
-            $e[] = new FF\Input('text', 'display_name', null, 'Column name', 'Display name');
+            $e[] = new FF\Input('text', 'name', null, 'columname', 'Name', autofocus: true, required: true);
+            $e[] = new FF\Input('text', 'display_name', null, 'Column name', 'Display name', required: true);
             $e[] = new FF\Input('text', 'default', null, 'Default value', 'Default value');
             $e[] = new FF\Input('checkbox', 'required', label: 'Required');
             break;
@@ -52,6 +65,7 @@ if (isset($_GET['add_column_type'])) {
     $s->options[] = ['checkbox', 'checkbox', 'A checkbox'];
     $s->options[] = ['date', 'date', 'A date'];
     $s->options[] = ['datetime', 'datetime', 'A date and time'];
+    $s->options[] = ['lookup', 'lookup', 'A reference to a record in another table'];
     $s->options[] = ['number', 'number', 'A whole number'];
     $s->options[] = ['text', 'text', 'A string of maximum 255 characters'];
     $s->options[] = ['time', 'time', 'A time'];
