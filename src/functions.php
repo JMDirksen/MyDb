@@ -2,6 +2,10 @@
 
 namespace MyDb;
 
+use FormFramework\Form;
+use FormFramework\Input;
+use FormFramework\Select;
+
 function redirect($url = null)
 {
     if (!$url) $url = $_SERVER['REQUEST_URI'];
@@ -36,8 +40,20 @@ function pageSelector($page, $pagesize, $recordcount): string
     $nextpage = min($lastpage, $page + 1);
     $previousURL = http_build_query(array_merge($_GET, array('p' => $previouspage)));
     $nextURL = http_build_query(array_merge($_GET, array('p' => $nextpage)));
+    $form = new Form('GET');
+    $form->other = 'style="display:inline;"';
+    $form->elements[] = new Input('hidden', 'page', 'view_table');
+    $form->elements[] = new Input('hidden', 'table', $_GET['table']);
+    $form->elements[] = $select = new Select('s', $_GET['s'] ?? '25', onchange: 'submit()');
+    $select->options[] = ['10', '10', 'Records per page'];
+    $select->options[] = ['25', '25', 'Records per page'];
+    $select->options[] = ['50', '50', 'Records per page'];
+    $select->options[] = ['100', '100', 'Records per page'];
+    $select->options[] = ['250', '250', 'Records per page'];
+    $select->options[] = ['500', '500', 'Records per page'];
+    $select->options[] = ['1000', '1000', 'Records per page'];
     return sprintf(
-        '<a href="?%s">Previous</a> <a href="?%s">Next</a> Page: %d/%d Records: %d-%d/%d',
+        '<a href="?%s">Previous</a> <a href="?%s">Next</a> Page: %d/%d Records: %d-%d/%d %s',
         $previousURL,                           // Previous page URL
         $nextURL,                               // Next page URL
         $page,                                  // Current page
@@ -45,5 +61,6 @@ function pageSelector($page, $pagesize, $recordcount): string
         ($page - 1) * $pagesize + 1,            // First record
         min($recordcount, $page * $pagesize),   // Last record
         $recordcount,                           // Total records
+        $form->getHtml(),
     );
 }
