@@ -16,10 +16,11 @@ class Select
     ) {
     }
 
-    function getHtml()
+    function getHtml(bool $tabled = false): string
     {
         $html = '';
-        if (isset($this->label)) $html .= sprintf('<label>%s ', $this->label);
+        if ($tabled) $html .= sprintf('<tr><th>%s</th><td>', $this->label);
+        elseif (isset($this->label)) $html .= sprintf('<label>%s ', $this->label);
         $multiple = ($this->multiple) ? ' multiple' : '';
         $onchange = ($this->onchange) ? sprintf(' onchange="%s"', $this->onchange) : null;
         $html .= sprintf('<select name="%s"%s%s>', $this->name, $multiple, $onchange);
@@ -39,7 +40,8 @@ class Select
             );
         }
         $html .= '</select> ';
-        if (isset($this->label)) $html .= '</label>';
+        if ($tabled) $html .= '</td></tr>';
+        elseif (isset($this->label)) $html .= '</label> ';
         return $html;
     }
 }
