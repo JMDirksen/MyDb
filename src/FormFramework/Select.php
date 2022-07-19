@@ -4,6 +4,7 @@ namespace FormFramework;
 
 class Select
 {
+    // $options = [['value', 'Name', 'Tooltip']]
     public array $options = [];
 
     function __construct(
@@ -11,6 +12,7 @@ class Select
         public null|string|array $selected = null,
         public ?string $label = null,
         public bool $multiple = false,
+        public ?string $onchange = null,
     ) {
     }
 
@@ -19,7 +21,8 @@ class Select
         $html = '';
         if (isset($this->label)) $html .= sprintf('<label>%s ', $this->label);
         $multiple = ($this->multiple) ? ' multiple' : '';
-        $html .= sprintf('<select name="%s"%s>', $this->name, $multiple);
+        $onchange = ($this->onchange) ? sprintf(' onchange="%s"', $this->onchange) : null;
+        $html .= sprintf('<select name="%s"%s%s>', $this->name, $multiple, $onchange);
         foreach ($this->options as $option) {
             if (gettype($this->selected) == 'array') {
                 $selected = (in_array($option[0], $this->selected)) ? ' selected' : '';

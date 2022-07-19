@@ -5,6 +5,7 @@ namespace FormFramework;
 class Form
 {
     public array $elements;
+    public string $other;
 
     function __construct(
         public string $method = 'POST',
@@ -19,10 +20,11 @@ class Form
         $other = (isset($this->other)) ? sprintf(' %s', $this->other) : null;
 
         $html = sprintf(
-            '<form method="%s" enctype="%s"%s>',
+            '<form method="%s" enctype="%s"%s%s>',
             $this->method,
             $this->enctype,
             $action,
+            $other,
         );
         if ($tabled) $html .= '<table>';
         foreach ($this->elements as $element) {
